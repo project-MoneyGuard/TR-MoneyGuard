@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useDispatch } from "react-redux";
-// import { logIn } from "../redux/auth/authOperations";
+import { logIn } from "../redux/auth/operations";
 import { Link, useNavigate } from "react-router-dom";
 
 const schema = yup.object().shape({
