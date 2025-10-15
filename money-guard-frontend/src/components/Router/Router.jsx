@@ -1,23 +1,22 @@
-
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
-import { useSelector } from 'react-redux';
-import Loader from './Loader/Loader';
+import Loader from "../Loader/Loader.jsx";
+import PublicRoute from "../PublicRoute/PublicRoute.jsx";
+import PrivateRoute from "../PrivateRoute/PrivateRoute.jsx";
 
-const LoginPage = lazy(() => import('../pages/LoginPage/LoginPage'));
-const RegistrationPage = lazy(() => import('../pages/RegistrationPage/RegistrationPage'));
-const DashboardPage = lazy(() => import('../pages/DashboardPage/DashboardPage'));
-
-import PublicRoute from './PublicRoute/PublicRoute';
-import PrivateRoute from './PrivateRoute/PrivateRoute';
+const LoginPage = lazy(() => import('../../pages/LoginPage/LoginPage'));
+const RegistrationPage = lazy(() => import('../../pages/RegistrationPage/RegistrationPage'));
+const DashboardPage = lazy(() => import('../../pages/DashboardPage/DashboardPage'));
 
 const AppRouter = () => {
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
-  const isLoading = useSelector(state => state.global.isLoading);
+  const isLoggedIn = true;
+  const isLoading = false;
+
   return (
     <BrowserRouter>
-      <Suspense fallback={null}>
+      <Suspense fallback={<Loader />}>
         {isLoading && <Loader />}
+        
         <Routes>
           <Route
             path="/register"
@@ -27,6 +26,7 @@ const AppRouter = () => {
               </PublicRoute>
             }
           />
+          
           <Route
             path="/login"
             element={
@@ -35,6 +35,7 @@ const AppRouter = () => {
               </PublicRoute>
             }
           />
+
           <Route
             path="/dashboard/*"
             element={
@@ -43,6 +44,7 @@ const AppRouter = () => {
               </PrivateRoute>
             }
           />
+
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
