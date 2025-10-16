@@ -6,13 +6,9 @@
   font-style: normal;
   font-display: swap;
 }
-
-
 :root {
- 
-  --font-sans: 'InterCustom', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, 'Apple Color Emoji';
-
-  --color-primary: #4a56e2;
+ --font-sans: 'InterCustom', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, 'Apple Color Emoji';
+--color-primary: #4a56e2;
   --color-secondary: #24cca7;
   --color-background: #f5f6fb;
   --color-text: #000000;
@@ -20,17 +16,11 @@
   --color-error: #ff6596;
   --color-border: #e0e0e0;
   --color-white: #ffffff;
-
-  
-  --border-radius: 12px;
-
-  
-  --bp-mobile: 480px;
+--border-radius: 12px;
+--bp-mobile: 480px;
   --bp-tablet: 768px;
   --bp-desktop: 1280px;
 }
-
-
 body {
   margin: 0;
   padding: 0;
