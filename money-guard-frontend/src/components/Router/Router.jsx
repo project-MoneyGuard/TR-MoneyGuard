@@ -5,8 +5,8 @@ import Loader from '../Loader/Loader';
 import PublicRoute from '../PublicRoute/PublicRoute';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
-const LoginPage = lazy(() => import('../../pages/LoginPage/LoginPage'));
-const RegistrationPage = lazy(() => import('../../pages/RegistrationPage/RegistrationPage'));
+const LoginPage = lazy(() => import('../LoginForm/LoginForm'));
+const RegistrationPage = lazy(() => import('../RegisterForm/RegisterForm'));
 const DashboardPage = lazy(() => import('../../pages/DashboardPage/DashboardPage'));
 const HomeTab = lazy(() => import('../HomeTab/HomeTab'));
 const StatisticsTab = lazy(() => import('../StatisticsTab/StatisticsTab'));
