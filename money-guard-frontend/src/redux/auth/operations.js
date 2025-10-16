@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { setUser } from "./authSlice";
+import { setUser } from "../slices/userSlice";
 
 axios.defaults.baseURL = "https://wallet.b.goit.study/api";
 
