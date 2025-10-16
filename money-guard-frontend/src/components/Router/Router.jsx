@@ -13,7 +13,7 @@ const StatisticsTab = lazy(() => import('../StatisticsTab/StatisticsTab'));
 const CurrencyTab = lazy(() => import('../CurrencyTab/CurrencyTab'));
 
 const AppRouter = () => {
-   const isLoggedIn = useSelector(state => state.user.isAuth);
+   const isLoggedIn = useSelector(state => state.user.isLoggedIn);
   const isLoading = useSelector(state => state.global.isLoading);
 
   return (
