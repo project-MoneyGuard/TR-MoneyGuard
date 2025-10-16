@@ -1,16 +1,20 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
-import Loader from "../Loader/Loader.jsx";
-import PublicRoute from "../PublicRoute/PublicRoute.jsx";
-import PrivateRoute from "../PrivateRoute/PrivateRoute.jsx";
+import { useSelector } from 'react-redux';
+import Loader from '../Loader/Loader';
+import PublicRoute from '../PublicRoute/PublicRoute';
+import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
 const LoginPage = lazy(() => import('../../pages/LoginPage/LoginPage'));
 const RegistrationPage = lazy(() => import('../../pages/RegistrationPage/RegistrationPage'));
 const DashboardPage = lazy(() => import('../../pages/DashboardPage/DashboardPage'));
+const HomeTab = lazy(() => import('../HomeTab/HomeTab'));
+const StatisticsTab = lazy(() => import('../StatisticsTab/StatisticsTab'));
+const CurrencyTab = lazy(() => import('../CurrencyTab/CurrencyTab'));
 
 const AppRouter = () => {
-  const isLoggedIn = true;
-  const isLoading = false;
+   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  const isLoading = useSelector(state => state.global.isLoading);
 
   return (
     <BrowserRouter>
@@ -37,13 +41,20 @@ const AppRouter = () => {
           />
 
           <Route
-            path="/dashboard/*"
+            path="/dashboard"
             element={
               <PrivateRoute isLoggedIn={isLoggedIn}>
                 <DashboardPage />
               </PrivateRoute>
             }
-          />
+          >
+            <Route path="home" element={<HomeTab />} />
+            <Route path="statistics" element={<StatisticsTab />} />
+            <Route path="currency" element={<CurrencyTab />} />
+
+            <Route index element={<HomeTab />} />
+            <Route path="*" element={<Navigate to="home" replace />} />
+          </Route>
 
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
