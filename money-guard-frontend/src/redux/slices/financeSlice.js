@@ -13,7 +13,6 @@ const financeSlice = createSlice({
   reducers: {
     setTransactions: (state, action) => {
       state.transactions = action.payload;
-      // Calculate totals when transactions are set
       state.income = action.payload
         .filter(transaction => transaction.type === 'income')
         .reduce((sum, transaction) => sum + transaction.amount, 0);
@@ -26,7 +25,6 @@ const financeSlice = createSlice({
       const newTransaction = action.payload;
       state.transactions.unshift(newTransaction);
       
-      // Update totals
       if (newTransaction.type === 'income') {
         state.income += newTransaction.amount;
       } else {
@@ -41,17 +39,14 @@ const financeSlice = createSlice({
       if (index !== -1) {
         const oldTransaction = state.transactions[index];
         
-        // Revert old transaction from totals
         if (oldTransaction.type === 'income') {
           state.income -= oldTransaction.amount;
         } else {
           state.expenses -= oldTransaction.amount;
         }
         
-        // Update transaction
         state.transactions[index] = { ...oldTransaction, ...updatedTransaction };
         
-        // Add new transaction to totals
         if (updatedTransaction.type === 'income') {
           state.income += updatedTransaction.amount;
         } else {
@@ -68,7 +63,6 @@ const financeSlice = createSlice({
       if (index !== -1) {
         const transaction = state.transactions[index];
         
-        // Remove from totals
         if (transaction.type === 'income') {
           state.income -= transaction.amount;
         } else {
