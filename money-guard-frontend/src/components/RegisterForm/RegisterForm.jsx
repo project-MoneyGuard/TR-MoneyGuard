@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { registerUser, clearError } from '../../redux/auth/authOperations';
 import { selectLoading, selectError, selectIsAuthenticated } from '../../redux/auth/authSelectors';
 import { useNavigate } from 'react-router-dom';
-import loginLogo from '../../assets/login-logo.png';
+//import loginLogo from '../../assets/login-logo.png';
 
 const schema = yup.object({
     name: yup.string().required('Name is required'),
