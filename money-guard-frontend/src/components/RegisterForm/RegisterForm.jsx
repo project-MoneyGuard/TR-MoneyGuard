@@ -4,8 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { register as registerUser } from '../../redux/auth/operations'; 
-import { clearUser } from '../../redux/auth/authSlice'; 
+import { register as registerUser } from '../../redux/auth/operations';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -29,7 +28,7 @@ const schema = yup.object({
 const RegisterForm = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { isLoading, error, isLoggedIn } = useSelector((state) => state.auth);
+    const { isLoading, error, isLoggedIn } = useSelector((state) => state.auth || {});
 
     const [passwordStrength, setPasswordStrength] = useState(0);
 
@@ -53,8 +52,7 @@ const RegisterForm = () => {
 
     useEffect(() => {
         if (password && confirmPassword) {
-            const strength = password === confirmPassword ? 100 : 0;
-            setPasswordStrength(strength);
+            setPasswordStrength(password === confirmPassword ? 100 : 0);
         } else {
             setPasswordStrength(0);
         }
@@ -74,14 +72,13 @@ const RegisterForm = () => {
         }
     };
 
+
     const handleLoginClick = () => {
-        dispatch(clearUser());
         navigate('/login');
     };
 
     return (
         <div className={styles.authCard}>
-            {/* Logo Section */}
             <div className={styles.logoContainer}>
                 <div className={styles.logoPlaceholder}>
                     <span className={styles.brandLetter}>MG</span>
@@ -90,7 +87,6 @@ const RegisterForm = () => {
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-          
                 <div className={styles.formGroup}>
                     <input
                         type="text"
@@ -101,7 +97,6 @@ const RegisterForm = () => {
                     {errors.name && <span className={styles.errorMessage}>{errors.name.message}</span>}
                 </div>
 
-               
                 <div className={styles.formGroup}>
                     <input
                         type="email"
@@ -112,7 +107,6 @@ const RegisterForm = () => {
                     {errors.email && <span className={styles.errorMessage}>{errors.email.message}</span>}
                 </div>
 
-               
                 <div className={styles.formGroup}>
                     <input
                         type="password"
@@ -135,14 +129,10 @@ const RegisterForm = () => {
                     )}
                 </div>
 
-                {/* Password Match Progress */}
                 {password && confirmPassword && (
                     <div className={styles.progressContainer}>
                         <div className={styles.progressBar}>
-                            <div
-                                className={styles.progressFill}
-                                style={{ width: `${passwordStrength}%` }}
-                            ></div>
+                            <div className={styles.progressFill} style={{ width: `${passwordStrength}%` }} />
                         </div>
                         <span className={styles.progressText}>
                             {passwordStrength === 100 ? 'Passwords match' : 'Passwords do not match'}
