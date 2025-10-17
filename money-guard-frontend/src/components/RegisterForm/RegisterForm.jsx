@@ -4,11 +4,10 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { register, clearError } from "../../redux/auth/operations";
-
-import { selectLoading, selectError, selectIsAuthenticated } from '../../redux/auth/operations';
+import { register as registerUser } from '../../redux/auth/operations'; 
+import { clearUser } from '../../redux/auth/authSlice'; 
 import { useNavigate } from 'react-router-dom';
-import loginLogo from '../../assets/login-logo.png';
+
 
 const schema = yup.object({
     name: yup.string().required('Name is required'),
@@ -30,9 +29,8 @@ const schema = yup.object({
 const RegisterForm = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const loading = useSelector(selectLoading);
-    const error = useSelector(selectError);
-    const isAuthenticated = useSelector(selectIsAuthenticated);
+    const { isLoading, error, isLoggedIn } = useSelector((state) => state.auth);
+
     const [passwordStrength, setPasswordStrength] = useState(0);
 
     const {
@@ -41,23 +39,17 @@ const RegisterForm = () => {
         watch,
         formState: { errors },
     } = useForm({
-        resolver: yupResolver(schema)
+        resolver: yupResolver(schema),
     });
 
     const password = watch('password');
     const confirmPassword = watch('confirmPassword');
 
     useEffect(() => {
-        if (isAuthenticated) {
+        if (isLoggedIn) {
             navigate('/home');
         }
-    }, [isAuthenticated, navigate]);
-
-    useEffect(() => {
-        if (error) {
-            console.error('Register error:', error);
-        }
-    }, [error]);
+    }, [isLoggedIn, navigate]);
 
     useEffect(() => {
         if (password && confirmPassword) {
@@ -70,14 +62,20 @@ const RegisterForm = () => {
 
     const onSubmit = async (data) => {
         try {
-            await dispatch(registerUser(data)).unwrap();
+            await dispatch(
+                registerUser({
+                    name: data.name,
+                    email: data.email,
+                    password: data.password,
+                })
+            ).unwrap();
         } catch (error) {
             console.error('Registration failed:', error);
         }
     };
 
     const handleLoginClick = () => {
-        dispatch(clearError());
+        dispatch(clearUser());
         navigate('/login');
     };
 
@@ -85,21 +83,15 @@ const RegisterForm = () => {
         <div className={styles.authCard}>
             {/* Logo Section */}
             <div className={styles.logoContainer}>
-                <div className={styles.logo}>
-                    <img src={loginLogo} alt="Money Guard Logo" className={styles.logoIcon} />
+                <div className={styles.logoPlaceholder}>
+                    <span className={styles.brandLetter}>MG</span>
                 </div>
                 <h1 className={styles.brandName}>Money Guard</h1>
             </div>
 
-            {/* Register Form */}
             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+          
                 <div className={styles.formGroup}>
-                    <div className={styles.inputIcon}>
-                        <svg viewBox="0 0 24 24" fill="none" className={styles.icon}>
-                            <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="currentColor" strokeWidth="2" fill="none" />
-                            <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="2" fill="none" />
-                        </svg>
-                    </div>
                     <input
                         type="text"
                         placeholder="Name"
@@ -109,13 +101,8 @@ const RegisterForm = () => {
                     {errors.name && <span className={styles.errorMessage}>{errors.name.message}</span>}
                 </div>
 
+               
                 <div className={styles.formGroup}>
-                    <div className={styles.inputIcon}>
-                        <svg viewBox="0 0 24 24" fill="none" className={styles.icon}>
-                            <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" strokeWidth="2" fill="none" />
-                            <polyline points="22,6 12,13 2,6" stroke="currentColor" strokeWidth="2" fill="none" />
-                        </svg>
-                    </div>
                     <input
                         type="email"
                         placeholder="Email"
@@ -125,14 +112,8 @@ const RegisterForm = () => {
                     {errors.email && <span className={styles.errorMessage}>{errors.email.message}</span>}
                 </div>
 
+               
                 <div className={styles.formGroup}>
-                    <div className={styles.inputIcon}>
-                        <svg viewBox="0 0 24 24" fill="none" className={styles.icon}>
-                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="currentColor" strokeWidth="2" fill="none" />
-                            <circle cx="12" cy="16" r="1" fill="currentColor" />
-                            <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" strokeWidth="2" fill="none" />
-                        </svg>
-                    </div>
                     <input
                         type="password"
                         placeholder="Password"
@@ -143,23 +124,18 @@ const RegisterForm = () => {
                 </div>
 
                 <div className={styles.formGroup}>
-                    <div className={styles.inputIcon}>
-                        <svg viewBox="0 0 24 24" fill="none" className={styles.icon}>
-                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="currentColor" strokeWidth="2" fill="none" />
-                            <circle cx="12" cy="16" r="1" fill="currentColor" />
-                            <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" strokeWidth="2" fill="none" />
-                        </svg>
-                    </div>
                     <input
                         type="password"
                         placeholder="Confirm Password"
                         {...register('confirmPassword')}
                         className={`${styles.inputField} ${errors.confirmPassword ? styles.error : ''}`}
                     />
-                    {errors.confirmPassword && <span className={styles.errorMessage}>{errors.confirmPassword.message}</span>}
+                    {errors.confirmPassword && (
+                        <span className={styles.errorMessage}>{errors.confirmPassword.message}</span>
+                    )}
                 </div>
 
-                {/* Progress Bar */}
+                {/* Password Match Progress */}
                 {password && confirmPassword && (
                     <div className={styles.progressContainer}>
                         <div className={styles.progressBar}>
@@ -178,10 +154,10 @@ const RegisterForm = () => {
 
                 <button
                     type="submit"
-                    className={`${styles.btn} ${styles.btnPrimary} ${loading ? styles.loading : ''}`}
-                    disabled={loading}
+                    className={`${styles.btn} ${styles.btnPrimary} ${isLoading ? styles.loading : ''}`}
+                    disabled={isLoading}
                 >
-                    {loading ? 'Registering...' : 'REGISTER'}
+                    {isLoading ? 'Registering...' : 'REGISTER'}
                 </button>
 
                 <button
