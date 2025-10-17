@@ -1,5 +1,5 @@
 .authCard {
-  background: rgb(65 66 101 / 50%);
+  background: #764ba2;
   backdrop-filter: blur(25px);
   border-radius: 20px;
   padding: 40px 30px;
@@ -48,7 +48,7 @@
   min-height: 65px;
 }
 
-/* Son form grubuna ekstra boşluk ekle */
+
 .formGroup:last-of-type {
   margin-bottom: 35px;
 }
@@ -193,7 +193,7 @@
   display: block;
 }
 
-/* Tablet Responsive Design (768x1024) */
+
 @media (max-width: 1024px) and (min-width: 769px) {
   .authCard {
     width: 450px;
@@ -238,7 +238,7 @@
   }
 }
 
-/* Mobile Responsive Design (320x568) */
+
 @media (max-width: 767px) {
   .authCard {
     width: 100%;
@@ -305,7 +305,7 @@
   }
 }
 
-/* Small Mobile (320px width) */
+
 @media (max-width: 320px) {
   .authCard {
     padding: 30px 15px;
