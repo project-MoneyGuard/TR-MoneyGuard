@@ -1,0 +1,36 @@
+.header{
+    background: linear-gradient(270.02deg, var(--color-linear-purple) 3.2%, var(--color-linear-dark-purple) 99.98%);
+    width: 100%;
+}
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    padding: 16px;
+    align-items: center;
+}
+.user{
+    display: flex;
+    gap: 12px;
+    color: var(--color-white);
+    opacity: .6;
+}
+.userExit{
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--color-white);
+    transition: .3s ease;
+    border-left: 1px solid var(--color-white);
+    padding-left: 12px;
+}
+.userExit:hover{
+    text-decoration: none;
+    color: var(--color-white);
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px){
+    .exitText{
+        display: none;
+    }
+}
