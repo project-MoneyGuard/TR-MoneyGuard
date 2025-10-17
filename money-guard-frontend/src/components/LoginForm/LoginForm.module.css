@@ -1,0 +1,29 @@
+@font-face {
+  font-family: 'InterCustom';
+  src: url('../assets/fonts/Inter-VariableFont_slnt,wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+:root {
+
+  --font-sans: 'InterCustom', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, 'Apple Color Emoji';
+
+ 
+  --color-primary: #4a56e2;
+  --color-secondary: #24cca7;
+  --color-background: #f5f6fb;
+  --color-text: #000000;
+  --color-muted: #a5a5a5;
+  --color-error: #ff6596;
+  --color-border: #e0e0e0;
+  --color-white: #ffffff;
+
+ 
+  --border-radius: 12px;
+
+
+  --bp-mobile: 480px;
+  --bp-tablet: 768px;
+  --bp-desktop: 1280px;
+}
