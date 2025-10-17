@@ -4,8 +4,9 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerUser, clearError } from '../../redux/auth/authOperations';
-import { selectLoading, selectError, selectIsAuthenticated } from '../../redux/auth/authSelectors';
+import { register, clearError } from "../../redux/auth/operations";
+
+import { selectLoading, selectError, selectIsAuthenticated } from '../../redux/auth/operations';
 import { useNavigate } from 'react-router-dom';
 import loginLogo from '../../assets/login-logo.png';
 
