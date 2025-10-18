@@ -1,19 +1,21 @@
 import { Outlet } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Navigation from '../../components/Navigation/Navigation';
-import './DashboardPage.css';
+import css from './DashboardPage.module.css';
 
 const DashboardPage = () => {
   return (
-    <div className="dashboard-page">
+    <>
       <Header />
-      <div className="dashboard-container">
-        <Navigation />
-        <main className="dashboard-main">
+      <div className={css.dasboardContainer}>
+        <div className={css.sidebar}>
+          <Navigation />
+        </div>
+        <div className={css.content}>
           <Outlet />
-        </main>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
