@@ -1,0 +1,120 @@
+.homeTabContainer {
+  padding: 30px 40px;
+  width: 100%;
+  height: calc(100vh - 80px);
+  overflow-y: auto;
+}
+.loaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.error {
+  color: #ff6b6b;
+  text-align: center;
+  padding: 20px;
+  font-size: 18px;
+}
+.transactionsTable {
+  background-color: rgba(82, 59, 126, 0.6);
+  backdrop-filter: blur(50px);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.tableHeader {
+  display: grid;
+  grid-template-columns: 100px 60px 150px 1fr 120px 100px;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 15px 20px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+.headerCell {
+  text-align: left;
+}
+.tableBody {
+  max-height: calc(100vh - 220px);
+  overflow-y: auto;
+}
+.tableRow {
+  display: grid;
+  grid-template-columns: 100px 60px 150px 1fr 120px 100px;
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background-color 0.2s;
+  align-items: center;
+}
+.tableRow:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+.cell {
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+.typeSymbol {
+  font-weight: bold;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+}
+.incomeAmount {
+  color: #24CCA7;
+  font-weight: 700;
+}
+.expenseAmount {
+  color: #FF6596;
+  font-weight: 700;
+}
+.deleteBtn {
+  background: linear-gradient(96.76deg, #FFC727 -16.42%, #FFB627 50%, #FFA727 100%);
+  border: none;
+  border-radius: 18px;
+  padding: 6px 16px;
+  color: var(--color-white);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+}
+.deleteBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(255, 199, 39, 0.4);
+}
+.deleteBtn:active {
+  transform: scale(0.98);
+}
+.noTransactions {
+  padding: 60px 20px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 16px;
+}
+/* Scrollbar Styling */
+.tableBody::-webkit-scrollbar {
+  width: 6px;
+}
+.tableBody::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+.tableBody::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #FFC727 0%, #9E40BA 100%);
+  border-radius: 10px;
+}
+.tableBody::-webkit-scrollbar-thumb:hover {
+  background: #FFC727;
+}
+/* Responsive */
+@media screen and (max-width: 1024px) {
+  .tableHeader,
+  .tableRow {
+    grid-template-columns: 90px 50px 130px 1fr 100px 90px;
+    font-size: 12px;
+  }
+}
