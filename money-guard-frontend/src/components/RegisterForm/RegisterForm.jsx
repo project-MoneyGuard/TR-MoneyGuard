@@ -1,4 +1,6 @@
-import styles from "./RegisterForm.module.css";
+
+import css from "./RegisterForm.module.css";
+
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -7,6 +9,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { register as registerUser } from "../../redux/auth/operations";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+
+import { FaEnvelope, FaLock , FaRegUser } from "react-icons/fa";
+
 
 const schema = yup
   .object({
@@ -83,6 +88,115 @@ const RegisterForm = () => {
   };
 
   return (
+
+    <div className={css.container}>
+      <div className={css.registerContainer}>
+        <img src="/headerlogo.svg" alt="" />
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className={css.registerForm}
+          noValidate
+        >
+          <div className={css.inputContainer}>
+            <FaRegUser />
+            <input
+              type="text"
+              placeholder="Name"
+              {...register("name")}
+              className={`${css.inputField} ${
+                errors.name ? css.error : ""
+              }`}
+            />
+            {errors.name && (
+              <span className={css.errorMessage}>{errors.name.message}</span>
+            )}
+          </div>
+
+          <div className={css.inputContainer}>
+            <FaEnvelope className={css.icon} />
+            <input
+              type="email"
+              placeholder="Email"
+              {...register("email")}
+              className={`${css.inputField} ${
+                errors.email ? css.error : ""
+              }`}
+            />
+            {errors.email && (
+              <span className={css.errorMessage}>{errors.email.message}</span>
+            )}
+          </div>
+
+          <div className={css.inputContainer}>
+            <FaLock className={css.icon} />
+            <input
+              type="password"
+              placeholder="Password"
+              {...register("password")}
+              className={`${css.inputField} ${
+                errors.password ? css.error : ""
+              }`}
+            />
+            {errors.password && (
+              <span className={css.errorMessage}>
+                {errors.password.message}
+              </span>
+            )}
+          </div>
+
+          <div className={css.inputContainer}>
+            <FaLock className={css.icon} />
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              {...register("confirmPassword")}
+              className={`${css.inputField} ${
+                errors.confirmPassword ? css.error : ""
+              }`}
+            />
+            {errors.confirmPassword && (
+              <span className={css.errorMessage}>
+                {errors.confirmPassword.message}
+              </span>
+            )}
+          </div>
+
+          {password && (
+            <div className={css.progressContainer}>
+              <div className={css.progressBar}>
+                <div
+                  className={css.progressFill}
+                  style={{ width: `${passwordStrength}%` }}
+                />
+              </div>
+              <span className={css.progressText}>
+                {passwordStrength === 100
+                  ? "Passwords match"
+                  : "Password strength"}
+              </span>
+            </div>
+          )}
+
+          {reduxError && !toast.isActive("registration-error") && (
+            <div className={css.errorMessage}>{reduxError}</div>
+          )}
+
+          <div className={css.buttonGroup}>
+              <button
+              type="submit"
+              disabled={isLoading}
+              className={css.registerBtn}
+            >
+              {isLoading ? "Registering..." : "REGISTER"}
+            </button>
+
+            <Link to="/login" className={css.loginBtn}>
+              LOG IN
+            </Link>
+          </div>
+        </form>
+      </div>
+
     <div className={styles.authCard}>
       <div className={styles.logoContainer}>
         <div className={styles.logoPlaceholder}>
@@ -190,6 +304,7 @@ const RegisterForm = () => {
           LOG IN
         </Link>
       </form>
+
     </div>
   );
 };
