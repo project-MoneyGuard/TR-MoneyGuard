@@ -76,7 +76,7 @@ const RegisterForm = () => {
       const errorMessage =
         error.message || "Registration failed. Please try again.";
 
-      toast.error(errorMessage); // <-- EKLENDİ
+      toast.error(errorMessage);
 
       console.error("Registration failed:", error);
     }
