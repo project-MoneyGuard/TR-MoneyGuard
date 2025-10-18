@@ -43,7 +43,7 @@ const Navigation = () => {
         <ul className={menuClasses}>
           <li className={styles.navItem}>
             <NavLink
-              to='/home'
+              to='/dashboard/home'
               className={getNavLinkClass}
               onClick={closeMenu}
               end
@@ -53,7 +53,7 @@ const Navigation = () => {
           </li>
           <li className={styles.navItem}>
             <NavLink
-              to='/statistics'
+              to='/dashboard/statistics'
               className={getNavLinkClass}
               onClick={closeMenu}
             >
@@ -62,7 +62,7 @@ const Navigation = () => {
           </li>
           <li className={styles.navItem}>
             <NavLink
-              to='/currency'
+              to='/dashboard/currency'
               className={getNavLinkClass}
               onClick={closeMenu}
             >

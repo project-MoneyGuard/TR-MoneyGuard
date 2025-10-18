@@ -1,4 +1,6 @@
+
 import css from "./RegisterForm.module.css";
+
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -7,7 +9,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { register as registerUser } from "../../redux/auth/operations";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+
 import { FaEnvelope, FaLock , FaRegUser } from "react-icons/fa";
+
 
 const schema = yup
   .object({
@@ -84,6 +88,7 @@ const RegisterForm = () => {
   };
 
   return (
+
     <div className={css.container}>
       <div className={css.registerContainer}>
         <img src="/headerlogo.svg" alt="" />
@@ -191,6 +196,115 @@ const RegisterForm = () => {
           </div>
         </form>
       </div>
+
+    <div className={styles.authCard}>
+      <div className={styles.logoContainer}>
+        <div className={styles.logoPlaceholder}>
+          <span className={styles.brandLetter}>MG</span>
+        </div>
+        <h1 className={styles.brandName}>Money Guard</h1>
+      </div>
+
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className={styles.form}
+        noValidate
+      >
+        <div className={styles.formGroup}>
+          <input
+            type="text"
+            placeholder="Name"
+            {...register("name")}
+            className={`${styles.inputField} ${
+              errors.name ? styles.error : ""
+            }`}
+          />
+          {errors.name && (
+            <span className={styles.errorMessage}>{errors.name.message}</span>
+          )}
+        </div>
+
+        <div className={styles.formGroup}>
+          <input
+            type="email"
+            placeholder="Email"
+            {...register("email")}
+            className={`${styles.inputField} ${
+              errors.email ? styles.error : ""
+            }`}
+          />
+          {errors.email && (
+            <span className={styles.errorMessage}>{errors.email.message}</span>
+          )}
+        </div>
+
+        <div className={styles.formGroup}>
+          <input
+            type="password"
+            placeholder="Password"
+            {...register("password")}
+            className={`${styles.inputField} ${
+              errors.password ? styles.error : ""
+            }`}
+          />
+          {errors.password && (
+            <span className={styles.errorMessage}>
+              {errors.password.message}
+            </span>
+          )}
+        </div>
+
+        <div className={styles.formGroup}>
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            {...register("confirmPassword")}
+            className={`${styles.inputField} ${
+              errors.confirmPassword ? styles.error : ""
+            }`}
+          />
+          {errors.confirmPassword && (
+            <span className={styles.errorMessage}>
+              {errors.confirmPassword.message}
+            </span>
+          )}
+        </div>
+
+        {password && (
+          <div className={styles.progressContainer}>
+            <div className={styles.progressBar}>
+              <div
+                className={styles.progressFill}
+                style={{ width: `${passwordStrength}%` }}
+              />
+            </div>
+            <span className={styles.progressText}>
+              {passwordStrength === 100
+                ? "Passwords match"
+                : "Password strength"}
+            </span>
+          </div>
+        )}
+
+        {reduxError && !toast.isActive("registration-error") && (
+          <div className={styles.errorMessage}>{reduxError}</div>
+        )}
+
+        <button
+          type="submit"
+          className={`${styles.btn} ${styles.btnPrimary} ${
+            isLoading ? styles.loading : ""
+          }`}
+          disabled={isLoading}
+        >
+          {isLoading ? "Registering..." : "REGISTER"}
+        </button>
+
+        <Link to="/login" className={`${styles.btn} ${styles.btnSecondary}`}>
+          LOG IN
+        </Link>
+      </form>
+
     </div>
   );
 };

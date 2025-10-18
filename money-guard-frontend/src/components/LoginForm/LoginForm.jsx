@@ -5,8 +5,10 @@ import * as yup from "yup";
 import { useDispatch } from "react-redux";
 import { logIn } from "../../redux/auth/operations";
 import { Link, useNavigate } from "react-router-dom";
-import { FaEnvelope, FaLock } from 'react-icons/fa';
-import css from './LoginForm.module.css';
+import { toast } from "react-toastify";
+import { FaEnvelope, FaLock } from "react-icons/fa";
+import css from "./LoginForm.module.css";
+
 const schema = yup.object().shape({
   email: yup
     .string()
@@ -32,35 +34,68 @@ const LoginForm = () => {
   });
 
   const onSubmit = async (data) => {
-    try {
-      const resultAction = await dispatch(logIn(data));
+    const resultAction = await dispatch(logIn(data));
 
-      if (logIn.fulfilled.match(resultAction)) {
-        navigate("/dashboard");
-      }
-    } catch (error) {
-      console.error("Login failed on component level:", error);
+    if (logIn.fulfilled.match(resultAction)) {
+      toast.success("Login successful! You are being redirected...");
+      navigate("/dashboard");
+    } else {
+      const errorMessage =
+        resultAction.payload?.message || "Email or password is incorrect.";
+      toast.error(errorMessage);
+      console.error("Login Failed:", resultAction.payload);
     }
   };
 
   return (
     <div className={"container"}>
       <div className={css.formContainer}>
-        <img src="/headerlogo.svg" alt="" className={css.loginLogo}/>
-        <form onSubmit={handleSubmit(onSubmit)} className={css.loginForm}>
+        <img
+          src="/headerlogo.svg"
+          alt="Money Guard Logo"
+          className={css.loginLogo}
+        />
+
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className={css.loginForm}
+          noValidate
+        >
           <div className={css.inputContainer}>
-            <FaEnvelope />
-            <input type="email" placeholder="Email" {...register("email")} className={css.formInput} />
-            <p style={{ color: "red" }}>{errors.email?.message}</p>
+            <FaEnvelope className={css.icon} />
+            <input
+              type="email"
+              placeholder="Email"
+              {...register("email")}
+              className={css.formInput}
+              autoComplete="email"
+            />
           </div>
+          {errors.email && (
+            <p className={css.errorMessage}>{errors.email.message}</p>
+          )}
+
           <div className={css.inputContainer}>
-            <FaLock />
-            <input type="password" placeholder="Password" className={css.formInput} {...register("password")} />
-            <p style={{ color: "red" }}>{errors.password?.message}</p>
+            <FaLock className={css.icon} />
+            <input
+              type="password"
+              placeholder="Password"
+              className={css.formInput}
+              {...register("password")}
+              autoComplete="current-password"
+            />
           </div>
+          {errors.password && (
+            <p className={css.errorMessage}>{errors.password.message}</p>
+          )}
+
           <div className={css.buttonGroup}>
-            <button type="submit" className={css.loginBtn}>Log In</button>
-            <Link to="/register" className={css.registerBtn}>Register</Link>
+            <button type="submit" className={css.loginBtn}>
+              Log In
+            </button>
+            <Link to="/register" className={css.registerBtn}>
+              Register
+            </Link>
           </div>
         </form>
       </div>
