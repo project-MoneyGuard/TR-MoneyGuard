@@ -12,7 +12,6 @@ const token = {
   },
 };
 
-
 export const register = createAsyncThunk(
   "auth/register",
   async (credentials, { rejectWithValue }) => {
@@ -28,7 +27,6 @@ export const register = createAsyncThunk(
   }
 );
 
-
 export const logIn = createAsyncThunk(
   "auth/login",
   async (credentials, { rejectWithValue }) => {
@@ -37,13 +35,10 @@ export const logIn = createAsyncThunk(
       token.set(data.token);
       return data;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || "Login failed"
-      );
+      return rejectWithValue(error.response?.data?.message || "Login failed");
     }
   }
 );
-
 
 export const logOut = createAsyncThunk(
   "auth/logout",
@@ -52,9 +47,7 @@ export const logOut = createAsyncThunk(
       await axios.delete("/auth/sign-out");
       token.unset();
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || "Logout failed"
-      );
+      return rejectWithValue(error.response?.data?.message || "Logout failed");
     }
   }
 );
