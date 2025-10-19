@@ -16,12 +16,18 @@ const CurrencyTab = lazy(() => import("../CurrencyTab/CurrencyTab"));
 
 const AppRouter = () => {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+
+  const isRefreshing = useSelector((state) => state.user.isRefreshing);
+
   const isLoading = useSelector((state) => state.global.isLoading);
+
+  if (isRefreshing) {
+    return <Loader />;
+  }
 
   return (
     <Suspense fallback={<Loader />}>
       {isLoading && <Loader />}
-
       <Routes>
         <Route
           path="/register"
