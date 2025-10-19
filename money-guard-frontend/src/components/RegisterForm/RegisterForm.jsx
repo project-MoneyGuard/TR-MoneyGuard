@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { register as registerUser } from "../../redux/auth/operations";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { FaEnvelope, FaLock , FaRegUser } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaRegUser } from "react-icons/fa";
 
 const schema = yup
   .object({
@@ -74,8 +74,7 @@ const RegisterForm = () => {
 
       navigate("/dashboard");
     } catch (error) {
-      const errorMessage =
-        error.message || "Registration failed. Please try again.";
+      const errorMessage = error.message || "Email already in use.";
 
       toast.error(errorMessage);
 
@@ -98,9 +97,7 @@ const RegisterForm = () => {
               type="text"
               placeholder="Name"
               {...register("name")}
-              className={`${css.inputField} ${
-                errors.name ? css.error : ""
-              }`}
+              className={`${css.inputField} ${errors.name ? css.error : ""}`}
             />
             {errors.name && (
               <span className={css.errorMessage}>{errors.name.message}</span>
@@ -113,9 +110,7 @@ const RegisterForm = () => {
               type="email"
               placeholder="Email"
               {...register("email")}
-              className={`${css.inputField} ${
-                errors.email ? css.error : ""
-              }`}
+              className={`${css.inputField} ${errors.email ? css.error : ""}`}
             />
             {errors.email && (
               <span className={css.errorMessage}>{errors.email.message}</span>
@@ -177,7 +172,7 @@ const RegisterForm = () => {
           )}
 
           <div className={css.buttonGroup}>
-              <button
+            <button
               type="submit"
               disabled={isLoading}
               className={css.registerBtn}
