@@ -1,6 +1,5 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-// Transactions API çağrıları
 export const fetchTransactions = createAsyncThunk(
   "finance/fetchTransactions",
   async (_, { rejectWithValue }) => {
@@ -49,6 +48,23 @@ export const deleteTransactionAPI = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || "Failed to delete transaction"
+      );
+    }
+  }
+);
+
+export const updateTransactionAPI = createAsyncThunk(
+  "finance/updateTransaction",
+  async ({ transactionId, updates }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.patch(
+        `/transactions/${transactionId}`,
+        updates
+      );
+      return data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to update transaction"
       );
     }
   }

@@ -1,10 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { 
-  fetchTransactions, 
-  fetchCategories, 
-  addTransactionAPI, 
-  deleteTransactionAPI 
-} from '../finance/operations';
+import { createSlice } from "@reduxjs/toolkit";
+import {
+  fetchTransactions,
+  fetchCategories,
+  addTransactionAPI,
+  deleteTransactionAPI,
+  updateTransactionAPI,
+} from "../finance/operations";
 const initialState = {
   transactions: [],
   categories: [],
@@ -14,83 +15,35 @@ const initialState = {
   isLoading: false,
   error: null,
 };
+
+const recalculateBalance = (state) => {
+  state.income = state.transactions
+    .filter((t) => t.type === "INCOME")
+    .reduce((sum, t) => sum + t.amount, 0);
+  state.expenses = state.transactions
+    .filter((t) => t.type === "EXPENSE")
+    .reduce((sum, t) => sum + t.amount, 0);
+  state.totalBalance = state.income - state.expenses;
+};
+
 const financeSlice = createSlice({
-  name: 'finance',
+  name: "finance",
   initialState,
   reducers: {
-    setTransactions: (state, action) => {
-      state.transactions = action.payload;
-      state.income = action.payload
-        .filter(transaction => transaction.type === 'INCOME')
-        .reduce((sum, transaction) => sum + transaction.amount, 0);
-      state.expenses = action.payload
-        .filter(transaction => transaction.type === 'EXPENSE')
-        .reduce((sum, transaction) => sum + transaction.amount, 0);
-      state.totalBalance = state.income - state.expenses;
-    },
-    addTransaction: (state, action) => {
-      const newTransaction = action.payload;
-      state.transactions.unshift(newTransaction);
-      
-      if (newTransaction.type === 'INCOME') {
-        state.income += newTransaction.amount;
-      } else {
-        state.expenses += newTransaction.amount;
-      }
-      state.totalBalance = state.income - state.expenses;
-    },
-    updateTransaction: (state, action) => {
-      const { id, updatedTransaction } = action.payload;
-      const index = state.transactions.findIndex(transaction => transaction.id === id);
-      
-      if (index !== -1) {
-        const oldTransaction = state.transactions[index];
-        
-        if (oldTransaction.type === 'INCOME') {
-          state.income -= oldTransaction.amount;
-        } else {
-          state.expenses -= oldTransaction.amount;
-        }
-        
-        state.transactions[index] = { ...oldTransaction, ...updatedTransaction };
-        
-        if (updatedTransaction.type === 'INCOME') {
-          state.income += updatedTransaction.amount;
-        } else {
-          state.expenses += updatedTransaction.amount;
-        }
-        
-        state.totalBalance = state.income - state.expenses;
-      }
-    },
-    deleteTransaction: (state, action) => {
-      const id = action.payload;
-      const index = state.transactions.findIndex(transaction => transaction.id === id);
-      
-      if (index !== -1) {
-        const transaction = state.transactions[index];
-        
-        if (transaction.type === 'INCOME') {
-          state.income -= transaction.amount;
-        } else {
-          state.expenses -= transaction.amount;
-        }
-        
-        state.transactions.splice(index, 1);
-        state.totalBalance = state.income - state.expenses;
-      }
-    },
     clearFinance: (state) => {
-      state.transactions = [];
-      state.categories = [];
-      state.totalBalance = 0;
-      state.income = 0;
-      state.expenses = 0;
+      Object.assign(state, {
+        transactions: [],
+        categories: [],
+        totalBalance: 0,
+        income: 0,
+        expenses: 0,
+        isLoading: false,
+        error: null,
+      });
     },
   },
   extraReducers: (builder) => {
     builder
-      // Fetch Transactions
       .addCase(fetchTransactions.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -98,19 +51,13 @@ const financeSlice = createSlice({
       .addCase(fetchTransactions.fulfilled, (state, action) => {
         state.isLoading = false;
         state.transactions = action.payload;
-        state.income = action.payload
-          .filter(transaction => transaction.type === 'INCOME')
-          .reduce((sum, transaction) => sum + transaction.amount, 0);
-        state.expenses = action.payload
-          .filter(transaction => transaction.type === 'EXPENSE')
-          .reduce((sum, transaction) => sum + transaction.amount, 0);
-        state.totalBalance = state.income - state.expenses;
+        recalculateBalance(state);
       })
       .addCase(fetchTransactions.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })
-      // Fetch Categories
+
       .addCase(fetchCategories.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -123,43 +70,56 @@ const financeSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
-      // Add Transaction
-      .addCase(addTransactionAPI.fulfilled, (state, action) => {
-        const newTransaction = action.payload;
-        state.transactions.unshift(newTransaction);
-        
-        if (newTransaction.type === 'INCOME') {
-          state.income += newTransaction.amount;
-        } else {
-          state.expenses += newTransaction.amount;
-        }
-        state.totalBalance = state.income - state.expenses;
+
+      .addCase(addTransactionAPI.pending, (state) => {
+        state.isLoading = true;
       })
-      // Delete Transaction
+      .addCase(addTransactionAPI.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.transactions.unshift(action.payload);
+        recalculateBalance(state);
+      })
+      .addCase(addTransactionAPI.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+
+      .addCase(deleteTransactionAPI.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(deleteTransactionAPI.fulfilled, (state, action) => {
-        const id = action.payload;
-        const index = state.transactions.findIndex(transaction => transaction.id === id);
-        
+        state.isLoading = false;
+        const idToDelete = action.payload;
+        state.transactions = state.transactions.filter(
+          (t) => t.id !== idToDelete
+        );
+        recalculateBalance(state);
+      })
+      .addCase(deleteTransactionAPI.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+
+      .addCase(updateTransactionAPI.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateTransactionAPI.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const updatedTransaction = action.payload;
+        const index = state.transactions.findIndex(
+          (t) => t.id === updatedTransaction.id
+        );
         if (index !== -1) {
-          const transaction = state.transactions[index];
-          
-          if (transaction.type === 'INCOME') {
-            state.income -= transaction.amount;
-          } else {
-            state.expenses -= transaction.amount;
-          }
-          
-          state.transactions.splice(index, 1);
-          state.totalBalance = state.income - state.expenses;
+          state.transactions[index] = updatedTransaction;
         }
+        recalculateBalance(state);
+      })
+      .addCase(updateTransactionAPI.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       });
   },
 });
-export const {
-  setTransactions,
-  addTransaction,
-  updateTransaction,
-  deleteTransaction,
-  clearFinance,
-} = financeSlice.actions;
+
+export const { clearFinance } = financeSlice.actions;
 export default financeSlice.reducer;

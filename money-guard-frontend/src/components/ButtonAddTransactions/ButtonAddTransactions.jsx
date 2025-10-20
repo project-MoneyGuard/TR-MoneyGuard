@@ -12,8 +12,15 @@ const ButtonAddTransactions = ({ name, className }) => {
     setIsModalOpen(false);
   };
 
+  const wrapperStyle = {
+    position: "fixed",
+    bottom: "80px",
+    right: "24px",
+    zIndex: 1050,
+  };
+
   return (
-    <div>
+    <div style={wrapperStyle}>
       <button onClick={handleOpenModal} className={className}>
         {name}
       </button>
