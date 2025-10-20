@@ -6,6 +6,7 @@ import {
   selectStatistics, 
   selectStatisticsLoading, 
   selectStatisticsError,
+  setPeriod,
   clearStatistics 
 } from '../../redux/slices/statisticsSlice';
 import styles from './StatisticsTab.module.css';
@@ -25,6 +26,11 @@ const StatisticsTab = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
+  const handlePeriodChange = (month, year) => {
+    setSelectedMonth(month);
+    setSelectedYear(year);
+    dispatch(setPeriod({ month, year }));
+  };
   
  useEffect(() => {
     dispatch(fetchStatistics({ month: selectedMonth, year: selectedYear }));
@@ -87,7 +93,7 @@ const StatisticsTab = () => {
             <label className={styles.selectLabel}>Month:</label>
             <select 
               value={selectedMonth} 
-              onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
+              onChange={(e) => handlePeriodChange(parseInt(e.target.value), selectedYear)}
               className={styles.select}
               disabled={isLoading}
             >
@@ -101,7 +107,7 @@ const StatisticsTab = () => {
             <label className={styles.selectLabel}>Year:</label>
             <select 
               value={selectedYear} 
-              onChange={(e) => setSelectedYear(parseInt(e.target.value))}
+              onChange={(e) => handlePeriodChange(selectedMonth, parseInt(e.target.value))}
               className={styles.select}
               disabled={isLoading}
             >
