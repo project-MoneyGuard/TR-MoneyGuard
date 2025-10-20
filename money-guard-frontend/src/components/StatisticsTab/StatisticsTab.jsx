@@ -87,4 +87,5 @@ const StatisticsTab = () => {
     </div>
   );
 };
+
 export default StatisticsTab;
