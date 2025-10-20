@@ -1,0 +1,190 @@
+.container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+.chartContainer {
+  flex: 1;
+}
+
+.title {
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.categoriesContainer {
+  flex: 1;
+  max-width: 300px;
+}
+
+.categoriesTitle {
+  color: #fff;
+  margin-bottom: 15px;
+}
+
+.categoriesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.categoryItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.categoryInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.colorIndicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.categoryName {
+  color: #fff;
+}
+
+.categoryAmount {
+  color: #fff;
+  font-weight: bold;
+}
+
+.expensesTotal {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 10px;
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
+  margin-top: 10px;
+}
+
+.totalLabel {
+  color: #fff;
+  font-weight: bold;
+}
+
+.totalAmount {
+  color: #FF6596;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.apiContainer{
+    display: block;
+}
+.apiSection {
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.periodSelector {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+.selectGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.selectLabel {
+  color: #fff;
+  font-size: 12px;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.select {
+  padding: 5px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.apiData {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.dataItem {
+  text-align: center;
+}
+
+.dataValue {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.income {
+  color: #24CCA7;
+}
+
+.expense {
+  color: #FF6596;
+}
+
+.balance {
+  color: #fff;
+}
+
+.positive {
+  color: #24CCA7;
+}
+
+.negative {
+  color: #FF6596;
+}
+
+.dataLabel {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  color: #fff;
+}
+
+.error {
+  text-align: center;
+  padding: 15px;
+  color: #FF6596;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #FF6596;
+}
+
+.retryButton {
+  margin-left: 10px;
+  padding: 5px 10px;
+  background: #FF6596;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.noData {
+  text-align: center;
+  padding: 30px;
+  color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+}
