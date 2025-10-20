@@ -1,14 +1,12 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import { FaHome, FaThinkPeaks , FaExchangeAlt   } from "react-icons/fa";
 import styles from "./Navigation.module.css";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
 
-  const toggleMenu = useCallback(() => {
-    setIsMenuOpen((prev) => !prev);
-  }, []);
 
   const closeMenu = useCallback(() => {
     setIsMenuOpen(false);
@@ -27,19 +25,6 @@ const Navigation = () => {
   return (
     <nav className={styles.navbar} role='navigation'>
       <div className={styles.navbarContainer}>
-        <NavLink to='/' className={styles.navbarLogo} onClick={closeMenu}>
-          Navigation
-        </NavLink>
-
-        <button
-          className={styles.menuIcon}
-          onClick={toggleMenu}
-          aria-label='Toggle menu'
-          aria-expanded={isMenuOpen}
-        >
-          ☰
-        </button>
-
         <ul className={menuClasses}>
           <li className={styles.navItem}>
             <NavLink
@@ -48,7 +33,7 @@ const Navigation = () => {
               onClick={closeMenu}
               end
             >
-              Home
+              <FaHome /> Home
             </NavLink>
           </li>
           <li className={styles.navItem}>
@@ -57,7 +42,7 @@ const Navigation = () => {
               className={getNavLinkClass}
               onClick={closeMenu}
             >
-              Statistics
+              <FaThinkPeaks /> Statistics
             </NavLink>
           </li>
           <li className={styles.navItem}>
@@ -66,7 +51,7 @@ const Navigation = () => {
               className={getNavLinkClass}
               onClick={closeMenu}
             >
-              Currency
+             <FaExchangeAlt /> Currency
             </NavLink>
           </li>
         </ul>
