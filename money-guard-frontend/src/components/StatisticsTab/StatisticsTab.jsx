@@ -5,7 +5,6 @@ import { fetchStatistics } from '../../redux/auth/statisticsOperations';
 import { 
   selectStatistics, 
   selectStatisticsLoading, 
-  selectStatisticsError,
   setPeriod,
   clearStatistics 
 } from '../../redux/slices/statisticsSlice';
@@ -17,7 +16,7 @@ const StatisticsTab = () => {
 
   const statistics = useSelector(selectStatistics);
   const isLoading = useSelector(selectStatisticsLoading);
-  const error = useSelector(selectStatisticsError);
+ 
 
   const transactions = useSelector(state => state.finance.transactions);
   const categories = useSelector(state => state.finance.categories);
@@ -75,9 +74,7 @@ const StatisticsTab = () => {
   const currentYear = new Date().getFullYear();
   const years = [currentYear, currentYear - 1, currentYear - 2];
   
-  const handleRetry = () => {
-    dispatch(fetchStatistics({ month: selectedMonth, year: selectedYear }));
-  };
+
 
 
   return (
@@ -120,17 +117,7 @@ const StatisticsTab = () => {
 
         
         {isLoading && <div className={styles.loading}>Loading statistics...</div>}
-        {error && (
-          <div className={styles.error}>
-            Error: {error}
-            <button 
-              onClick={handleRetry}
-              className={styles.retryButton}
-            >
-              Retry
-            </button>
-          </div>
-        )}
+      
 
         
         {statistics && !isLoading && (
