@@ -1,0 +1,20 @@
+.sidebarBalance{
+    background-color: rgba(var(--color-balance), 0.6);
+    padding: 8px 0 12px 56px;
+    text-align:  left;
+    width: 100%;
+    
+}
+.balanceP{
+    font-size: 12px;
+    color: var(--color-muted);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.balanceFormat{
+    font-size: 30px;
+    font-weight: 900;
+    color: var(--color-white);
+    margin: 0;
+}

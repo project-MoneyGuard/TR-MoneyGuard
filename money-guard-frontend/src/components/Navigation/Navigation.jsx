@@ -25,7 +25,7 @@ const Navigation = () => {
   return (
     <nav className={styles.navbar} role='navigation'>
       <div className={styles.navbarContainer}>
-        <ul className={menuClasses}>
+        <ul className={`${menuClasses} ${styles.menuList}`}>
           <li className={styles.navItem}>
             <NavLink
               to='/dashboard/home'
@@ -33,7 +33,7 @@ const Navigation = () => {
               onClick={closeMenu}
               end
             >
-              <FaHome /> Home
+              <FaHome className={styles.navigationIcon}/> Home
             </NavLink>
           </li>
           <li className={styles.navItem}>
@@ -42,7 +42,7 @@ const Navigation = () => {
               className={getNavLinkClass}
               onClick={closeMenu}
             >
-              <FaThinkPeaks /> Statistics
+              <FaThinkPeaks className={styles.navigationIcon}/> Statistics
             </NavLink>
           </li>
           <li className={styles.navItem}>
@@ -51,7 +51,7 @@ const Navigation = () => {
               className={getNavLinkClass}
               onClick={closeMenu}
             >
-             <FaExchangeAlt /> Currency
+             <FaExchangeAlt className={styles.navigationIcon}/> Currency
             </NavLink>
           </li>
         </ul>

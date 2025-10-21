@@ -17,9 +17,13 @@
   --color-border: #e0e0e0;
   --color-white: #ffffff;
   --color-purple : #623F8B;
+  --color-blue : #734AEF;
   --color-white-rgb : 255,255,255;
+  --color-black-rgb: 0,0,0;
   --color-linear-purple : #2E1746;
   --color-linear-dark-purple :  #2E225F;
+  --color-balance: 82, 59, 126;
+
 --border-radius: 12px;
 --bp-mobile: 480px;
   --bp-tablet: 768px;

@@ -16,6 +16,7 @@ body > #root {
     border-right: 1px solid var(--color-white);
     background-color: #563EAF;
     height: 100vh;
+    overflow: hidden;
 }
 .content{
     width: 75%;
@@ -28,3 +29,4 @@ body > #root {
     right: 10px;
     font-size: 30px;
 }
+

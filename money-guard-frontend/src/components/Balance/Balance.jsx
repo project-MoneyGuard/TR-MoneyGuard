@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-
+import css from "./Balance.module.css";
 const formatCurrency = (amount) => {
   const formatted = new Intl.NumberFormat("en-US", {
     style: "decimal",
@@ -18,19 +18,12 @@ const Balance = () => {
 
   if (isLoading) {
     return (
-      <div style={{ padding: "10px", textAlign: "left" }}>
+      <div className={css.sidebarBalance}>
         {" "}
-        <p style={{ fontSize: "12px", color: "#a5a5a5", marginBottom: "5px" }}>
+        <p  className={css.balanceP}>
           Your Balance
         </p>
-        <p
-          style={{
-            fontSize: "30px",
-            fontWeight: "bold",
-            color: "#a5a5a5",
-            margin: 0,
-          }}
-        >
+        <p className={css.balanceFormat} >
           ...
         </p>
       </div>
@@ -38,12 +31,12 @@ const Balance = () => {
   }
 
   return (
-    <div style={{ padding: "10px", textAlign: "left" }}>
+    <div className={css.sidebarBalance}>
       {" "}
-      <p style={{ fontSize: "12px", color: "#a5a5a5", marginBottom: "5px" }}>
+      <p className={css.balanceP}>
         Your Balance
       </p>
-      <h2 style={{ fontSize: "30px", fontWeight: "bold", margin: 0 }}>
+      <h2 className={css.balanceFormat}>
         ₴ {formattedBalance}
       </h2>
     </div>

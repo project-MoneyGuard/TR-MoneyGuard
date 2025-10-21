@@ -20,10 +20,11 @@ const DashboardPage = () => {
       <div className={css.dasboardContainer}>
         <div className={css.sidebar}>
           <Navigation />
+          <Balance className={css.balance}/>
         </div>
         <div className={css.content}>
           <Outlet />
-          <Balance />
+          
           <ButtonAddTransactions
             name="+"
             className={css.addTransactionButton}
