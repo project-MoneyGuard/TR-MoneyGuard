@@ -85,7 +85,7 @@ const RegisterForm = () => {
   return (
     <div className={css.container}>
       <div className={css.registerContainer}>
-        <img src="/headerlogo.svg" alt="" />
+        <img src="/headerlogo.svg" alt="" className={css.registerLogo}/>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className={css.registerForm}
@@ -97,10 +97,10 @@ const RegisterForm = () => {
               type="text"
               placeholder="Name"
               {...register("name")}
-              className={`${css.inputField} ${errors.name ? css.error : ""}`}
+              className={`${css.inputField} ${errors.name ? "error" : ""}`}
             />
             {errors.name && (
-              <span className={css.errorMessage}>{errors.name.message}</span>
+              <span className={"errorMessage"}>{errors.name.message}</span>
             )}
           </div>
 
@@ -110,10 +110,10 @@ const RegisterForm = () => {
               type="email"
               placeholder="Email"
               {...register("email")}
-              className={`${css.inputField} ${errors.email ? css.error : ""}`}
+              className={`${css.inputField} ${errors.email ? "error" : ""}`}
             />
             {errors.email && (
-              <span className={css.errorMessage}>{errors.email.message}</span>
+              <span className={"errorMessage"}>{errors.email.message}</span>
             )}
           </div>
 
@@ -124,11 +124,11 @@ const RegisterForm = () => {
               placeholder="Password"
               {...register("password")}
               className={`${css.inputField} ${
-                errors.password ? css.error : ""
+                errors.password ? "error" : ""
               }`}
             />
             {errors.password && (
-              <span className={css.errorMessage}>
+              <span className={"errorMessage"}>
                 {errors.password.message}
               </span>
             )}
@@ -141,11 +141,11 @@ const RegisterForm = () => {
               placeholder="Confirm Password"
               {...register("confirmPassword")}
               className={`${css.inputField} ${
-                errors.confirmPassword ? css.error : ""
+                errors.confirmPassword ? "error" : ""
               }`}
             />
             {errors.confirmPassword && (
-              <span className={css.errorMessage}>
+              <span className={"errorMessage"}>
                 {errors.confirmPassword.message}
               </span>
             )}
@@ -175,12 +175,12 @@ const RegisterForm = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className={css.registerBtn}
+             className={"gradientBtn"}
             >
               {isLoading ? "Registering..." : "REGISTER"}
             </button>
 
-            <Link to="/login" className={css.loginBtn}>
+            <Link to="/login" className={"whiteBtn"}>
               LOG IN
             </Link>
           </div>

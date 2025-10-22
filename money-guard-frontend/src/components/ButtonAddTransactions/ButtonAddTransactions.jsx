@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ModalAddTransaction from "../ModalAddTransaction/ModalAddTransaction";
 
-const ButtonAddTransactions = ({ name, className }) => {
+const ButtonAddTransactions = ({ className }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -22,7 +22,7 @@ const ButtonAddTransactions = ({ name, className }) => {
   return (
     <div style={wrapperStyle}>
       <button onClick={handleOpenModal} className={className}>
-        {name}
+        <span>+</span>
       </button>
 
       <ModalAddTransaction isOpen={isModalOpen} onClose={handleCloseModal} />

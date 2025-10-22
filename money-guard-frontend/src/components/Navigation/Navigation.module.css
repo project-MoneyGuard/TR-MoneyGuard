@@ -33,3 +33,24 @@
     border-radius: 2px;
     padding: 3px;
 }
+.currencyTab{
+    display: none;
+  }
+
+@media (min-width: 320px) and (max-width: 767px) {
+  .currencyTab{
+    display: block;
+  }
+  .menuList{
+    display: flex;
+    gap : 32px;
+    justify-content: center;
+  }
+  .menuList span {
+    display: none;
+  }
+  .navigationIcon{
+    width: 44px;
+    height: 44px;
+  }
+}

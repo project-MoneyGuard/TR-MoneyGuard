@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -22,13 +22,16 @@ const schema = yup.object().shape({
     .required("Sum is required"),
   date: yup.date().required("Date is required"),
   comment: yup.string().required("Comment is required"),
-  categoryId: yup.string().required("Category is required"),
+  categoryId: yup.string().when("type", {
+    is: "EXPENSE",
+    then: (schema) => schema.required("Category is required for expenses"),
+    otherwise: (schema) => schema.notRequired(),
+  }),
 });
 
 const AddTransactionForm = ({ onClose }) => {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.finance.categories);
-  const [incomeCategory, setIncomeCategory] = useState(null);
 
   const {
     register,
@@ -51,38 +54,12 @@ const AddTransactionForm = ({ onClose }) => {
 
   const isExpense = watch("isExpense");
 
-  
-  useEffect(() => {
-    if (categories.length > 0) {
-      const foundIncomeCategory = categories.find(cat => 
-        cat.name?.toLowerCase().includes('income') || 
-        cat.type === 'INCOME' ||
-        cat.name === 'Income'
-      );
-      
-      if (foundIncomeCategory) {
-        setIncomeCategory(foundIncomeCategory);
-        console.log('Found income category:', foundIncomeCategory);
-      } else {
-        console.log('No income category found, available categories:', categories);
-        setIncomeCategory(categories[0]);
-      }
-    }
-  }, [categories]);
-
   useEffect(() => {
     setValue("type", isExpense ? "EXPENSE" : "INCOME");
-    
-   
-    if (!isExpense && incomeCategory) {
-      setValue("categoryId", incomeCategory.id);
-    }
-    
-   
-    if (isExpense) {
+    if (!isExpense) {
       setValue("categoryId", "");
     }
-  }, [isExpense, setValue, incomeCategory]);
+  }, [isExpense, setValue]);
 
   useEffect(() => {
     if (categories.length === 0) {
@@ -91,68 +68,53 @@ const AddTransactionForm = ({ onClose }) => {
   }, [dispatch, categories.length]);
 
   const onSubmit = async (data) => {
-    console.log("Form data:", data);
-    
-    
-    let finalCategoryId = data.categoryId;
-    
-    if (!isExpense && incomeCategory) {
-      finalCategoryId = incomeCategory.id;
-    }
-
-    const transactionData = {
+    let transactionData = {
       type: data.type,
-      amount: data.type === "EXPENSE" 
-        ? -Math.abs(Number(data.amount))
-        : Math.abs(Number(data.amount)),
+      amount:
+        data.type === "EXPENSE"
+          ? -Math.abs(Number(data.amount))
+          : Number(data.amount),
       transactionDate: data.date.toISOString(),
       comment: data.comment.trim(),
-      categoryId: finalCategoryId
     };
 
-    console.log("Sending transaction:", transactionData);
+    if (data.type === "EXPENSE") {
+      transactionData.categoryId = data.categoryId;
+    } else {
+      const incomeCategory =
+        categories.find(
+          (cat) =>
+            cat.type?.toUpperCase() === "INCOME" ||
+            cat.name?.toLowerCase() === "income"
+        ) || categories[0];
+      if (incomeCategory) {
+        transactionData.categoryId = incomeCategory.id;
+      }
+    }
 
     try {
-      const result = await dispatch(
-        addTransactionAPI(transactionData)
-      ).unwrap();
-      console.log("Transaction added:", result);
-
+      await dispatch(addTransactionAPI(transactionData)).unwrap();
       toast.success("Transaction added successfully!");
       onClose();
     } catch (error) {
-      console.error("Add transaction failed:", error);
-      
-      let errorMessage = "Failed to add transaction. Please try again.";
-      
-      if (error && Array.isArray(error)) {
-        errorMessage = error.join(", ");
-      } else if (typeof error === 'string') {
-        errorMessage = error;
-      } else if (error?.message) {
-        errorMessage = error.message;
-      }
-      
-      toast.error(errorMessage);
+      toast.error(error || "Failed to add transaction. Please try again.");
     }
   };
 
- 
-  const expenseCategories = categories.filter(cat => 
-    !cat.name?.toLowerCase().includes('income') && 
-    cat.type !== 'INCOME'
-  );
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.addForm}>
       <Controller
         name="isExpense"
         control={control}
         render={({ field }) => (
           <div className={styles.switcher}>
-            <span className={!field.value ? styles.activeIncome : ""}>
+            <span
+              className={!field.value ? styles.activeIncome : ""}
+              onClick={() => field.onChange(false)}
+            >
               Income
             </span>
+
             <label className={styles.switch}>
               <input
                 type="checkbox"
@@ -161,61 +123,51 @@ const AddTransactionForm = ({ onClose }) => {
               />
               <span className={styles.slider}></span>
             </label>
-            <span className={field.value ? styles.activeExpense : ""}>
+
+            <span
+              className={field.value ? styles.activeExpense : ""}
+              onClick={() => field.onChange(true)}
+            >
               Expense
             </span>
           </div>
         )}
       />
 
-      
       {isExpense && (
-        <div className={styles.formGroup}>
-          <label htmlFor="categoryId">Category</label>
+        <div className={styles.inputContainer}>
           <select
             id="categoryId"
             {...register("categoryId")}
-            className={errors.categoryId ? styles.inputError : ""}
+            className={errors.categoryId ? "error" : ""}
           >
             <option value="">Select a category</option>
-            {expenseCategories.map((category) => (
+            {categories.map((category) => (
               <option key={category.id} value={category.id}>
                 {category.name}
               </option>
             ))}
           </select>
           {errors.categoryId && (
-            <p className={styles.errorMsg}>{errors.categoryId.message}</p>
+            <span className={"errorMessage"}>{errors.categoryId.message}</span>
           )}
         </div>
       )}
 
-      
-      {!isExpense && (
-        <input
-          type="hidden"
-          {...register("categoryId")}
-          value={incomeCategory?.id || ""}
-        />
-      )}
-
-      <div className={styles.sumDateWrapper}>
-        <div className={styles.formGroup}>
-          <label htmlFor="amount">Sum</label>
+      <div className={"sumDateWrapper"}>
+        <div className={styles.inputContainer}>
           <input
             id="amount"
             type="number"
             placeholder="0.00"
             {...register("amount")}
-            className={errors.amount ? styles.inputError : ""}
+            className={errors.amount ? "error" : ""}
           />
           {errors.amount && (
-            <p className={styles.errorMsg}>{errors.amount.message}</p>
+            <span className={"errorMessage"}>{errors.amount.message}</span>
           )}
         </div>
-
-        <div className={styles.formGroup}>
-          <label htmlFor="date">Date</label>
+        <div className={styles.inputContainer}>
           <Controller
             name="date"
             control={control}
@@ -225,35 +177,34 @@ const AddTransactionForm = ({ onClose }) => {
                 selected={field.value}
                 onChange={(date) => field.onChange(date)}
                 dateFormat="dd.MM.yyyy"
-                className={errors.date ? styles.inputError : ""}
+                className={errors.date ? "error" : ""}
                 wrapperClassName={styles.datePickerWrapper}
               />
             )}
           />
           {errors.date && (
-            <p className={styles.errorMsg}>{errors.date.message}</p>
+            <span className={"errorMessage"}>{errors.date.message}</span>
           )}
         </div>
       </div>
 
-      <div className={styles.formGroup}>
-        <label htmlFor="comment">Comment</label>
+      <div className={styles.inputContainer}>
         <textarea
           id="comment"
           placeholder="Your comment"
           {...register("comment")}
-          className={errors.comment ? styles.inputError : ""}
+          className={errors.comment ? "error" : ""}
         />
         {errors.comment && (
-          <p className={styles.errorMsg}>{errors.comment.message}</p>
+          <span className={"errorMessage"}>{errors.comment.message}</span>
         )}
       </div>
 
       <div className={styles.buttonGroup}>
-        <button type="submit" className={styles.btnAdd}>
+        <button type="submit" className={"gradientBtn"}>
           ADD
         </button>
-        <button type="button" onClick={onClose} className={styles.btnCancel}>
+        <button type="button" onClick={onClose} className={"whiteBtn"}>
           CANCEL
         </button>
       </div>

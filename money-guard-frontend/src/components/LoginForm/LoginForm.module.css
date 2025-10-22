@@ -9,37 +9,39 @@ body{
   flex-direction: column;
   justify-content: center;
 }
-.formContainer{
+.formContainer {
   background-color: rgba(var(--color-white-rgb), 0.1);
   backdrop-filter: blur(60px);
   box-shadow: 0 4px 60px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
   width: 533px;
   height: 570px;
-  margin:  0 auto;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  
-
 }
 .loginLogo{
   width: 182px;
   height: 76px;
-  margin-bottom: 52px;
+  padding: 52px 0 ;
 }
-.loginForm{
+.loginForm {
   display: flex;
   flex-direction: column;
-  gap: 42px;
+  justify-content: space-between;
+  height: calc(100% - 62px);
+  width: 100%; 
+  padding: 0 62px 62px 62px;         
+  box-sizing: border-box;   
 }
 
-.inputContainer{
+.inputContainer {
   position: relative;
-    width: 300px;
-    display: flex;
-    align-items: center;
+  width: 100%;              
+  display: flex;
+  align-items: center;
 }
 .inputContainer svg {
     position: absolute;
@@ -48,67 +50,24 @@ body{
     font-size: 18px;
     transition: all 0.3s ease;
 }
-.formInput {
-    width: 100%;
-    padding: 10px 10px 10px 35px;
-    border: 2px solid transparent;
-    border-bottom: 2px solid #ccc;
-    background-color: transparent;
-    color: white;
-    font-size: 16px;
-    outline: none;
-    transition: all 0.3s ease;
-}
-
-.formInput:focus {
-    border-bottom: 2px solid #ff9f00;
-    color: #ff9f00;
-}
-
-.formInput:focus::placeholder {
-    color: transparent;
-}
-
-.formInput:hover {
-    border-bottom: 2px solid #FFC727;
-}
-
-.formInput::placeholder {
-    color: #ccc;
-    opacity: 0.7;
-}
-
 
 .formInput:focus + label + svg,
 .formInput:hover + label + svg {
-    color: #FFC727;
+    color: var(--color-yellow);
 }
 .buttonGroup{
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-.loginBtn{
-  border-radius: 20px;
-  color: var(--color-white);
-  padding: 13px 0;
-  background: linear-gradient(96.76deg, #FFC727 -16.42%, #9E40BA 97.04%, #7000FF 150.71%);
-}
-.registerBtn {
-  border-radius: 20px;
-  padding: 13px 0;
-  color: var(--color-purple);
-  background-color: var(--color-white);
-  text-align: center;
-}
-.registerBtn:hover{
-  text-decoration: none;
-}
+
 
 @media screen and (min-width: 320px) and (max-width: 767px){
-    
   .formContainer{
-        width: 100%;
-        height:  100vh;
-    }
+    width: 100%;
+    height:  100vh;
+  }
+  .loginForm {
+    justify-content: space-evenly;  
+  }
 }

@@ -33,7 +33,7 @@ const Navigation = () => {
               onClick={closeMenu}
               end
             >
-              <FaHome className={styles.navigationIcon}/> Home
+              <FaHome className={styles.navigationIcon}/> <span>Home</span>
             </NavLink>
           </li>
           <li className={styles.navItem}>
@@ -42,16 +42,16 @@ const Navigation = () => {
               className={getNavLinkClass}
               onClick={closeMenu}
             >
-              <FaThinkPeaks className={styles.navigationIcon}/> Statistics
+              <FaThinkPeaks className={styles.navigationIcon}/> <span>Statistics</span>
             </NavLink>
           </li>
-          <li className={styles.navItem}>
+          <li className={`${styles.navItem} ${styles.currencyTab}`}>
             <NavLink
               to='/dashboard/currency'
               className={getNavLinkClass}
               onClick={closeMenu}
             >
-             <FaExchangeAlt className={styles.navigationIcon}/> Currency
+             <FaExchangeAlt className={styles.navigationIcon}/> <span>Currency</span>
             </NavLink>
           </li>
         </ul>

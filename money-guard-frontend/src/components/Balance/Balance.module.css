@@ -2,7 +2,6 @@
     background-color: rgba(var(--color-balance), 0.6);
     padding: 8px 0 12px 56px;
     text-align:  left;
-    width: 100%;
     
 }
 .balanceP{
@@ -18,3 +17,10 @@
     color: var(--color-white);
     margin: 0;
 }
+
+@media (min-width: 320px) and (max-width: 767px) {
+    .sidebarBalance{
+        width: 80%;
+        margin: 0 auto;
+    }
+  }

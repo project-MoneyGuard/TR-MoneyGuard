@@ -1,0 +1,106 @@
+.table{
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 75%;
+    margin: 0 auto;
+    margin-top: 46px;
+}
+.table thead{
+    background-color: var(--color-table-head);
+    border: none;
+    padding: 16px 20px;
+    color: var(--color-white);
+    border-radius: 8px;
+    backdrop-filter: blur(100px);
+    box-shadow: 0px 4px 60px 0px rgba(0, 0, 0, 0.25);
+
+}
+.table thead > tr {
+    padding: 16px 20px;
+}
+thead th {
+  padding: 16px 0;
+}
+
+thead th:first-child {
+  padding-left: 20px;
+  border-radius: 8px 0px 0px 8px;
+}
+
+thead th:last-child {
+  padding-right: 20px;
+  border-radius: 0px 8px 8px 0;
+}
+
+tbody tr {
+    text-align: center;
+    border-bottom: 1px solid rgba(var(--color-white-rgb) , 0.4);
+    color: var(--color-white);
+    padding: 16px;
+}
+.btnPadding{
+    padding: 4px 16px;
+}
+.addBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px; 
+  height: 48px; 
+  padding: 12px;
+  color: var(--color-white);
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 50%; 
+  box-shadow: 1px 9px 15px 0px #00000033;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+
+@media (max-width: 768px) {
+    .table {
+        width: 100%;
+        margin-top: 20px;
+    }
+    .table thead {
+        display: none;
+    }
+    .table tbody{
+      padding: 32px;
+    display: table-caption;
+    }
+    .table tbody tr {
+        display: block;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        padding: 10px;
+        border-left: 5px solid var(--color-pink);
+        background-color: rgba(var(--color-white-rgb), 0.1);
+    }
+
+    .table tbody td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid rgba(var(--color-white-rgb), 0.2);
+    }
+    .table tbody td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: var(--color-white); 
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .table tbody td:last-child {
+        margin-bottom: 0;
+        border-bottom: none;
+    }
+
+    .btnPadding {
+        padding: 6px 12px;
+    }
+}

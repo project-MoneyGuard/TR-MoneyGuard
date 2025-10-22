@@ -67,33 +67,31 @@ const LoginForm = () => {
               type="email"
               placeholder="Email"
               {...register("email")}
-              className={css.formInput}
+              className={`${css.formInput} ${errors.email ? "error" : ""}`}
               autoComplete="email"
             />
-          </div>
-          {errors.email && (
-            <p className={css.errorMessage}>{errors.email.message}</p>
+            {errors.email && (
+            <span className={"errorMessage"}>{errors.email.message}</span>
           )}
-
+          </div>
           <div className={css.inputContainer}>
             <FaLock className={css.icon} />
             <input
               type="password"
               placeholder="Password"
-              className={css.formInput}
+              className={`${css.formInput} ${errors.password ? "error" : ""}`}
               {...register("password")}
               autoComplete="current-password"
             />
-          </div>
-          {errors.password && (
-            <p className={css.errorMessage}>{errors.password.message}</p>
+            {errors.password && (
+            <span className={"errorMessage"}>{errors.password.message}</span>
           )}
-
+          </div>
           <div className={css.buttonGroup}>
-            <button type="submit" className={css.loginBtn}>
+            <button type="submit" className={"gradientBtn"}>
               Log In
             </button>
-            <Link to="/register" className={css.registerBtn}>
+            <Link to="/register" className={"whiteBtn"}>
               Register
             </Link>
           </div>

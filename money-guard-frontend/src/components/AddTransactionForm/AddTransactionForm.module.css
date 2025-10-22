@@ -1,0 +1,98 @@
+.buttonGroup{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.addForm{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100% - 62px);
+  width: 100%; 
+  padding: 0 62px 62px 62px;         
+  box-sizing: border-box; 
+  gap: 20px;
+}
+.inputContainer {
+  position: relative;
+  width: 100%;              
+  display: flex;
+  align-items: center;
+}
+.buttonGroup{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.switcher {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border-radius: 30px;
+  padding: 8px 16px;
+  font-weight: 500;
+  font-size: 14px;
+  
+  color: var(--color-white)
+}
+.switcher span {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.activeIncome {
+  color: var(--color-yellow);
+}
+.activeExpense {
+  color: var(--color-yellow);
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 28px;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-white);
+  border-radius: 30px;
+  transition: 0.3s;
+}
+.slider::before {
+  content: "+";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: var(--color-white);
+  background-color: var(--color-yellow);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+  box-shadow: 0 0 10px var(--color-yellow);
+}
+input:checked + .slider::before {
+  transform: translate(28px, -50%);
+  background-color: var(--color-red); 
+  box-shadow: 0 0 10px var(--color-red);
+  content: "-";
+}
+
+input:checked + .slider {
+  background-color: var(--color-white);
+}
