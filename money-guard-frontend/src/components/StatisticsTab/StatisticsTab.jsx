@@ -1,66 +1,59 @@
+// src/components/StatisticsTab/StatisticsTab.jsx
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Chart from '../Chart/Chart';
 import { fetchStatistics } from '../../redux/auth/statisticsOperations';
-import { 
-  selectStatistics, 
-  selectStatisticsLoading, 
-  setPeriod,
-  clearStatistics 
-} from '../../redux/slices/statisticsSlice';
 import styles from './StatisticsTab.module.css';
 
 const StatisticsTab = () => {
-  
   const dispatch = useDispatch();
 
-  const statistics = useSelector(selectStatistics);
-  const isLoading = useSelector(selectStatisticsLoading);
- 
-
-  const transactions = useSelector(state => state.finance.transactions);
-  const categories = useSelector(state => state.finance.categories);
-  const expenses = useSelector(state => state.finance.expenses);
+  // ✅ BASİT STATE YÖNETİMİ
+  const statistics = useSelector(state => state.statistics?.data);
+  const isLoading = useSelector(state => state.statistics?.isLoading || false);
+  const transactions = useSelector(state => state.finance?.transactions || []);
 
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  
+  // ✅ chartKey KALDIRILDI - sadece state
+  const [chartKey, setChartKey] = useState(0);
 
   const handlePeriodChange = (month, year) => {
     setSelectedMonth(month);
     setSelectedYear(year);
-    dispatch(setPeriod({ month, year }));
+    dispatch(fetchStatistics({ month, year }));
   };
   
- useEffect(() => {
+  // ✅ BASİT useEffect
+  useEffect(() => {
     dispatch(fetchStatistics({ month: selectedMonth, year: selectedYear }));
   }, [dispatch, selectedMonth, selectedYear]);
 
+  // ✅ TRANSACTIONS DEĞİŞİNCE YENİLE
   useEffect(() => {
-    return () => {
-      dispatch(clearStatistics());
-    };
-  }, [dispatch]);
+    dispatch(fetchStatistics({ month: selectedMonth, year: selectedYear }));
+    // ✅ Chart'ı yeniden render etmek için key'i güncelle
+    setChartKey(prev => prev + 1);
+  }, [dispatch, selectedMonth, selectedYear, transactions.length]);
 
-  const getCategoryStatistics = () => {
-    if (!transactions || !categories) return {};
+  // ✅ API'den gelen kategori verilerini işle
+  const getCategoryStatisticsFromAPI = () => {
+    if (!statistics?.categories || statistics.categories.length === 0) {
+      return [];
+    }
     
-    const expenseTransactions = transactions.filter(t => t && t.type === 'EXPENSE');
-    const categoryTotals = {};
-    
-    expenseTransactions.forEach(transaction => {
-      if (transaction && transaction.categoryId) {
-        const categoryId = transaction.categoryId;
-        if (!categoryTotals[categoryId]) {
-          categoryTotals[categoryId] = 0;
-        }
-        categoryTotals[categoryId] += transaction.amount || 0;
-      }
-    });
-    
-    return categoryTotals;
+    return statistics.categories
+      .filter(category => category && Math.abs(category.total) > 0)
+      .map((category, index) => ({
+        id: `category-${index}-${category.name}`,
+        name: category.name,
+        amount: Math.abs(category.total),
+      }))
+      .sort((a, b) => b.amount - a.amount);
   };
 
-  const categoryTotals = getCategoryStatistics();
+  const apiCategories = getCategoryStatisticsFromAPI();
 
   const months = [
     { value: 1, label: 'January' }, { value: 2, label: 'February' }, 
@@ -73,26 +66,34 @@ const StatisticsTab = () => {
 
   const currentYear = new Date().getFullYear();
   const years = [currentYear, currentYear - 1, currentYear - 2];
-  
 
+  const totalExpensesFromAPI = statistics?.totalExpenses || 0;
 
+  // ✅ SABİT RENK PALETİ
+  const categoryColors = [
+    '#FED057', '#FFD8D0', '#FD9498', '#C5BAFF',
+    '#6E78E8', '#4A56E2', '#81E1FF', '#24CCA7', '#00AD84'
+  ];
+
+  // ✅ LOADING DURUMU
+  if (isLoading) {
+    return <div className={styles.loading}>Loading statistics...</div>;
+  }
 
   return (
     <div className={styles.container}>
-      <div className={styles.chartContainer}>
+      <div className={styles.leftSection}>
         <h2 className={styles.title}>Statistics</h2>
-        <Chart transactions={transactions} categories={categories} />
+        <Chart key={chartKey} categories={apiCategories} />
       </div>
-      <div className={styles.apiContainer}>
-         <div className={styles.apiSection}>
+
+      <div className={styles.rightSection}>
         <div className={styles.periodSelector}>
           <div className={styles.selectGroup}>
-            <label className={styles.selectLabel}>Month:</label>
+            <label>Month:</label>
             <select 
               value={selectedMonth} 
               onChange={(e) => handlePeriodChange(parseInt(e.target.value), selectedYear)}
-              className={styles.select}
-              disabled={isLoading}
             >
               {months.map(month => (
                 <option key={month.value} value={month.value}>{month.label}</option>
@@ -101,12 +102,10 @@ const StatisticsTab = () => {
           </div>
           
           <div className={styles.selectGroup}>
-            <label className={styles.selectLabel}>Year:</label>
+            <label>Year:</label>
             <select 
               value={selectedYear} 
               onChange={(e) => handlePeriodChange(selectedMonth, parseInt(e.target.value))}
-              className={styles.select}
-              disabled={isLoading}
             >
               {years.map(year => (
                 <option key={year} value={year}>{year}</option>
@@ -115,77 +114,42 @@ const StatisticsTab = () => {
           </div>
         </div>
 
-        
-        {isLoading && <div className={styles.loading}>Loading statistics...</div>}
-      
-
-        
-        {statistics && !isLoading && (
-          <div className={styles.apiData}>
-            <div className={styles.dataItem}>
-              <div className={`${styles.dataValue} ${styles.income}`}>
-                ${statistics.totalIncome?.toFixed(2) || '0.00'}
-              </div>
-              <div className={styles.dataLabel}>Income</div>
-            </div>
-            <div className={styles.dataItem}>
-              <div className={`${styles.dataValue} ${styles.expense}`}>
-                ${statistics.totalExpenses?.toFixed(2) || '0.00'}
-              </div>
-              <div className={styles.dataLabel}>Expenses</div>
-            </div>
-            <div className={styles.dataItem}>
-              <div className={`${styles.dataValue} ${styles.balance} ${
-                (statistics.totalIncome - statistics.totalExpenses) >= 0 ? styles.positive : styles.negative
-              }`}>
-                ${((statistics.totalIncome || 0) - (statistics.totalExpenses || 0)).toFixed(2)}
-              </div>
-              <div className={styles.dataLabel}>Balance</div>
-            </div>
+        <div className={styles.categoriesContainer}>
+          <div className={styles.categoriesTitle}>
+            <span>Category</span>
+            <span>Sum</span>
           </div>
-        )}
-      </div>
-
-
-      <div className={styles.categoriesContainer}>
-        <h3 className={styles.categoriesTitle}>Category</h3>
-        <ul className={styles.categoriesList}>
-          {categories.map((category, index) => {
-            const total = categoryTotals[category.id] || 0;
-            const colors = [
-              '#FED057', '#FFD8D0', '#FD9498', '#C5BAFF',
-              '#6E78E8', '#4A56E2', '#81E1FF', '#24CCA7', '#00AD84'
-            ];
-            
-      
-      
-
-      
-            return (
-              <li key={category.id} className={styles.categoryItem}>
-                <div className={styles.categoryInfo}>
-                  <div 
-                    className={styles.colorIndicator}
-                    style={{ backgroundColor: colors[index % colors.length] }}
-                  />
-                  <span className={styles.categoryName}>{category.name}</span>
-                </div>
-                <span className={styles.categoryAmount}>
-                  {total.toFixed(2)}
-                </span>
-              </li>
-            );
-          })}
-        </ul>
-        <div className={styles.expensesTotal}>
-          <span className={styles.totalLabel}>Expenses:</span>
-          <span className={styles.totalAmount}>
-            {expenses.toFixed(2)}
-          </span>
+          
+          <ul className={styles.categoriesList}>
+            {apiCategories.length > 0 ? (
+              apiCategories.map((category, index) => (
+                <li key={category.id} className={styles.categoryItem}>
+                  <div className={styles.categoryInfo}>
+                    <div 
+                      className={styles.colorIndicator}
+                      style={{ 
+                        backgroundColor: categoryColors[index % categoryColors.length],
+                        display: 'block'
+                      }}
+                    />
+                    <span className={styles.categoryName}>{category.name}</span>
+                  </div>
+                  <span className={styles.categoryAmount}>
+                    ₴ {category.amount.toFixed(2)}
+                  </span>
+                </li>
+              ))
+            ) : (
+              <li className={styles.noData}>No expenses</li>
+            )}
+          </ul>
+          
+          <div className={styles.expensesTotal}>
+            <span>Total Expenses:</span>
+            <span>₴ {totalExpensesFromAPI.toFixed(2)}</span>
+          </div>
         </div>
       </div>
-      </div>
-      
     </div>
   );
 };

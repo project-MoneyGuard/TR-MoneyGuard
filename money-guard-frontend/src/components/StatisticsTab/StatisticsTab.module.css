@@ -21,6 +21,8 @@
 .categoriesTitle {
   color: #fff;
   margin-bottom: 15px;
+  display: flex;
+  gap: 150px;
 }
 
 .categoriesList {

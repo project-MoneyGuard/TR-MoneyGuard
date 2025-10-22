@@ -26,7 +26,7 @@ const rootReducer = combineReducers({
   user: persistReducer(userPersistConfig, userReducer),
   finance: financeReducer,
   global: globalReducer,
-  statistics: statisticsReducer,
+  statistics: statisticsReducer, 
 });
 
 export const store = configureStore({
