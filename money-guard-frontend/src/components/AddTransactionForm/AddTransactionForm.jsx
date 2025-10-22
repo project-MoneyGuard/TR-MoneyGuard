@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -22,16 +22,13 @@ const schema = yup.object().shape({
     .required("Sum is required"),
   date: yup.date().required("Date is required"),
   comment: yup.string().required("Comment is required"),
-  categoryId: yup.string().when("type", {
-    is: "EXPENSE",
-    then: (schema) => schema.required("Category is required for expenses"),
-    otherwise: (schema) => schema.notRequired(),
-  }),
+  categoryId: yup.string().required("Category is required"),
 });
 
 const AddTransactionForm = ({ onClose }) => {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.finance.categories);
+  const [incomeCategory, setIncomeCategory] = useState(null);
 
   const {
     register,
@@ -54,12 +51,38 @@ const AddTransactionForm = ({ onClose }) => {
 
   const isExpense = watch("isExpense");
 
+  
+  useEffect(() => {
+    if (categories.length > 0) {
+      const foundIncomeCategory = categories.find(cat => 
+        cat.name?.toLowerCase().includes('income') || 
+        cat.type === 'INCOME' ||
+        cat.name === 'Income'
+      );
+      
+      if (foundIncomeCategory) {
+        setIncomeCategory(foundIncomeCategory);
+        console.log('Found income category:', foundIncomeCategory);
+      } else {
+        console.log('No income category found, available categories:', categories);
+        setIncomeCategory(categories[0]);
+      }
+    }
+  }, [categories]);
+
   useEffect(() => {
     setValue("type", isExpense ? "EXPENSE" : "INCOME");
-    if (!isExpense) {
+    
+   
+    if (!isExpense && incomeCategory) {
+      setValue("categoryId", incomeCategory.id);
+    }
+    
+   
+    if (isExpense) {
       setValue("categoryId", "");
     }
-  }, [isExpense, setValue]);
+  }, [isExpense, setValue, incomeCategory]);
 
   useEffect(() => {
     if (categories.length === 0) {
@@ -68,15 +91,23 @@ const AddTransactionForm = ({ onClose }) => {
   }, [dispatch, categories.length]);
 
   const onSubmit = async (data) => {
+    console.log("Form data:", data);
+    
+    
+    let finalCategoryId = data.categoryId;
+    
+    if (!isExpense && incomeCategory) {
+      finalCategoryId = incomeCategory.id;
+    }
+
     const transactionData = {
       type: data.type,
-      amount:
-        data.type === "EXPENSE"
-          ? -Math.abs(Number(data.amount))
-          : Number(data.amount),
+      amount: data.type === "EXPENSE" 
+        ? -Math.abs(Number(data.amount))
+        : Math.abs(Number(data.amount)),
       transactionDate: data.date.toISOString(),
       comment: data.comment.trim(),
-      categoryId: data.type === "EXPENSE" ? data.categoryId : null,
+      categoryId: finalCategoryId
     };
 
     console.log("Sending transaction:", transactionData);
@@ -91,9 +122,26 @@ const AddTransactionForm = ({ onClose }) => {
       onClose();
     } catch (error) {
       console.error("Add transaction failed:", error);
-      toast.error(error || "Failed to add transaction. Please try again.");
+      
+      let errorMessage = "Failed to add transaction. Please try again.";
+      
+      if (error && Array.isArray(error)) {
+        errorMessage = error.join(", ");
+      } else if (typeof error === 'string') {
+        errorMessage = error;
+      } else if (error?.message) {
+        errorMessage = error.message;
+      }
+      
+      toast.error(errorMessage);
     }
   };
+
+ 
+  const expenseCategories = categories.filter(cat => 
+    !cat.name?.toLowerCase().includes('income') && 
+    cat.type !== 'INCOME'
+  );
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -120,6 +168,7 @@ const AddTransactionForm = ({ onClose }) => {
         )}
       />
 
+      
       {isExpense && (
         <div className={styles.formGroup}>
           <label htmlFor="categoryId">Category</label>
@@ -129,7 +178,7 @@ const AddTransactionForm = ({ onClose }) => {
             className={errors.categoryId ? styles.inputError : ""}
           >
             <option value="">Select a category</option>
-            {categories.map((category) => (
+            {expenseCategories.map((category) => (
               <option key={category.id} value={category.id}>
                 {category.name}
               </option>
@@ -139,6 +188,15 @@ const AddTransactionForm = ({ onClose }) => {
             <p className={styles.errorMsg}>{errors.categoryId.message}</p>
           )}
         </div>
+      )}
+
+      
+      {!isExpense && (
+        <input
+          type="hidden"
+          {...register("categoryId")}
+          value={incomeCategory?.id || ""}
+        />
       )}
 
       <div className={styles.sumDateWrapper}>

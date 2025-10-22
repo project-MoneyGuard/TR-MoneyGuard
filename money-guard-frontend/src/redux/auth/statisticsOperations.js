@@ -16,24 +16,34 @@ export const fetchStatistics = createAsyncThunk(
         throw new Error('No authentication token found. Please login again.');
       }
 
-      const response = await axios.get('/transactions/statistics', {
+      const response = await axios.get('/transactions-summary', {
         params: {
-          month: month.toString().padStart(2, '0'), 
-          year: year.toString()
+          month: month,
+          year: year
         },
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
 
-      console.log(' API Response:', response.data);
+      console.log('API Response:', response.data);
 
-      const formattedData = formatStatisticsData(response.data);
+      const apiData = response.data;
       
+      const formattedData = {
+        totalIncome: apiData.incomeSummary || 0,
+        totalExpenses: Math.abs(apiData.expenseSummary) || 0, 
+        periodTotal: apiData.periodTotal || 0,
+        categories: apiData.categoriesSummary || [],
+        month: apiData.month,
+        year: apiData.year
+      };
+      
+      console.log('Formatted Data:', formattedData);
       return formattedData;
       
     } catch (error) {
-      console.error(' API Error:', error);
+      console.error('API Error:', error);
       
       let errorMessage = 'Failed to fetch statistics';
       
@@ -50,20 +60,22 @@ export const fetchStatistics = createAsyncThunk(
   }
 );
 
-
-const formatStatisticsData = (apiData) => {
-  console.log(' Raw API Data:', apiData);
+export const formatStatisticsData = (apiData) => {
+  console.log('Raw API Data:', apiData);
   
   return {
-    totalIncome: apiData.totalIncome || 0,
-    totalExpenses: apiData.totalExpenses || 0,
-    categories: Array.isArray(apiData.categories) 
-      ? apiData.categories.map(category => ({
+    totalIncome: apiData.incomeSummary || 0,
+    totalExpenses: Math.abs(apiData.expenseSummary) || 0,
+    periodTotal: apiData.periodTotal || 0,
+    categories: Array.isArray(apiData.categoriesSummary) 
+      ? apiData.categoriesSummary.map(category => ({
           name: category.name || category.category || 'Unknown',
           amount: category.amount || category.sum || 0,
           color: category.color || getRandomColor()
         }))
-      : []
+      : [],
+    month: apiData.month,
+    year: apiData.year
   };
 };
 

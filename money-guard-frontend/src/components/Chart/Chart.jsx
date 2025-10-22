@@ -1,4 +1,3 @@
-// src/components/Chart/Chart.jsx
 import { Doughnut } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -6,68 +5,83 @@ import {
   Tooltip,
   Legend
 } from 'chart.js';
-// Chart.js register
+
 ChartJS.register(ArcElement, Tooltip, Legend);
+
 const Chart = ({ transactions, categories }) => {
-  // Kategorilere göre harcamaları grupla
-  const getCategoryStatistics = () => {
-    const expenseTransactions = transactions.filter(t => t.type === 'EXPENSE');
-    
-    const categoryTotals = {};
-    
-    expenseTransactions.forEach(transaction => {
-      const categoryId = transaction.categoryId;
-      if (!categoryTotals[categoryId]) {
-        categoryTotals[categoryId] = 0;
-      }
-      categoryTotals[categoryId] += transaction.amount;
-    });
-    
-    return categoryTotals;
-  };
-  const categoryTotals = getCategoryStatistics();
+  console.log('Chart received data:', { transactions, categories });
   
-  // Kategorileri bul ve data hazırla
-  const chartLabels = [];
-  const chartData = [];
+  
   const chartColors = [
-    '#FED057',
-    '#FFD8D0',
-    '#FD9498',
-    '#C5BAFF',
-    '#6E78E8',
-    '#4A56E2',
-    '#81E1FF',
-    '#24CCA7',
-    '#00AD84'
+    '#FED057', '#FFD8D0', '#FD9498', '#C5BAFF',
+    '#6E78E8', '#4A56E2', '#81E1FF', '#24CCA7', '#00AD84'
   ];
-  Object.keys(categoryTotals).forEach((categoryId, index) => {
-    const category = categories.find(cat => cat.id === categoryId);
-    if (category) {
-      chartLabels.push(category.name);
-      chartData.push(categoryTotals[categoryId]);
+
+
+  const getCategoryStatistics = () => {
+    if (!categories || categories.length === 0) {
+      console.log('No categories data');
+      return {
+        labels: ['No expenses'],
+        data: [0], 
+        colors: ['#CCCCCC']
+      };
     }
-  });
+    
+    console.log('Categories for chart:', categories);
+    
+    const labels = [];
+    const data = [];
+    const colors = [];
+
+    categories.forEach((category, index) => {
+      if (category && category.amount > 0) {
+        labels.push(category.name);
+        data.push(category.amount);
+        colors.push(chartColors[index % chartColors.length]);
+      }
+    });
+
+    console.log('Processed chart data:', { labels, data, colors });
+    
+    if (data.length === 0) {
+      return {
+        labels: ['No expenses'],
+        data: [0], 
+        colors: ['#CCCCCC']
+      };
+    }
+    
+    return {
+      labels,
+      data,
+      colors
+    };
+  };
+
+  const chartData = getCategoryStatistics();
+
   const data = {
-    labels: chartLabels,
+    labels: chartData.labels,
     datasets: [
       {
-        data: chartData,
-        backgroundColor: chartColors.slice(0, chartLabels.length),
+        data: chartData.data,
+        backgroundColor: chartData.colors,
         borderWidth: 0,
-        cutout: '70%', // Doughnut hole size
+        cutout: '70%',
       },
     ],
   };
+
   const options = {
     responsive: true,
     maintainAspectRatio: true,
     plugins: {
       legend: {
-        display: false, // Legend'ı gizle (sağ tarafta liste var)
+        display: false,
       },
       tooltip: {
-        enabled: true,
+        enabled: chartData.data[0] > 0,
         callbacks: {
           label: function(context) {
             const label = context.label || '';
@@ -78,10 +92,13 @@ const Chart = ({ transactions, categories }) => {
       },
     },
   };
+
+  const totalExpenses = chartData.data.reduce((a, b) => a + b, 0);
+
   return (
     <div style={{ position: 'relative', width: '300px', height: '300px' }}>
       <Doughnut data={data} options={options} />
-      {/* Ortadaki toplam balance */}
+      
       <div style={{
         position: 'absolute',
         top: '50%',
@@ -91,10 +108,11 @@ const Chart = ({ transactions, categories }) => {
         pointerEvents: 'none'
       }}>
         <p style={{ fontSize: '24px', fontWeight: 'bold', margin: 0, color: '#fff' }}>
-          ₴ {chartData.reduce((a, b) => a + b, 0).toFixed(2)}
+          ₴ {totalExpenses.toFixed(2)}
         </p>
       </div>
     </div>
   );
 };
+
 export default Chart;
