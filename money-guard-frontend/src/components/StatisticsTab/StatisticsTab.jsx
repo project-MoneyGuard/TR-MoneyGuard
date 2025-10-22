@@ -1,4 +1,3 @@
-// src/components/StatisticsTab/StatisticsTab.jsx
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Chart from '../Chart/Chart';
@@ -8,7 +7,7 @@ import styles from './StatisticsTab.module.css';
 const StatisticsTab = () => {
   const dispatch = useDispatch();
 
-  // ✅ BASİT STATE YÖNETİMİ
+
   const statistics = useSelector(state => state.statistics?.data);
   const isLoading = useSelector(state => state.statistics?.isLoading || false);
   const transactions = useSelector(state => state.finance?.transactions || []);
@@ -16,7 +15,7 @@ const StatisticsTab = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   
-  // ✅ chartKey KALDIRILDI - sadece state
+ 
   const [chartKey, setChartKey] = useState(0);
 
   const handlePeriodChange = (month, year) => {
@@ -25,19 +24,19 @@ const StatisticsTab = () => {
     dispatch(fetchStatistics({ month, year }));
   };
   
-  // ✅ BASİT useEffect
+  
   useEffect(() => {
     dispatch(fetchStatistics({ month: selectedMonth, year: selectedYear }));
   }, [dispatch, selectedMonth, selectedYear]);
 
-  // ✅ TRANSACTIONS DEĞİŞİNCE YENİLE
+  
   useEffect(() => {
     dispatch(fetchStatistics({ month: selectedMonth, year: selectedYear }));
-    // ✅ Chart'ı yeniden render etmek için key'i güncelle
+    
     setChartKey(prev => prev + 1);
   }, [dispatch, selectedMonth, selectedYear, transactions.length]);
 
-  // ✅ API'den gelen kategori verilerini işle
+ 
   const getCategoryStatisticsFromAPI = () => {
     if (!statistics?.categories || statistics.categories.length === 0) {
       return [];
@@ -67,15 +66,17 @@ const StatisticsTab = () => {
   const currentYear = new Date().getFullYear();
   const years = [currentYear, currentYear - 1, currentYear - 2];
 
-  const totalExpensesFromAPI = statistics?.totalExpenses || 0;
 
-  // ✅ SABİT RENK PALETİ
+  const totalExpensesFromAPI = statistics?.totalExpenses || 0;
+  const totalIncomeFromAPI = statistics?.totalIncome || 0;
+
+  
   const categoryColors = [
     '#FED057', '#FFD8D0', '#FD9498', '#C5BAFF',
     '#6E78E8', '#4A56E2', '#81E1FF', '#24CCA7', '#00AD84'
   ];
 
-  // ✅ LOADING DURUMU
+ 
   if (isLoading) {
     return <div className={styles.loading}>Loading statistics...</div>;
   }
@@ -144,9 +145,19 @@ const StatisticsTab = () => {
             )}
           </ul>
           
-          <div className={styles.expensesTotal}>
-            <span>Total Expenses:</span>
-            <span>₴ {totalExpensesFromAPI.toFixed(2)}</span>
+          <div className={styles.incomeExpensesContainer}>
+            <div className={styles.incomeExpenseItem}>
+              <span className={styles.incomeLabel}>Income:</span>
+              <span className={styles.incomeValue}>
+                ₴ {totalIncomeFromAPI.toFixed(2)}
+              </span>
+            </div>
+            <div className={styles.incomeExpenseItem}>
+              <span className={styles.expenseLabel}>Expenses:</span>
+              <span className={styles.expenseValue}>
+                ₴ {totalExpensesFromAPI.toFixed(2)}
+              </span>
+            </div>
           </div>
         </div>
       </div>
