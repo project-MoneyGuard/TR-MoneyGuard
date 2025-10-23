@@ -1,48 +1,127 @@
 .container {
-  background-color: #3a1f61;
-  color: white;
-  font-family: Arial, sans-serif;
-  border-radius: 12px;
-  padding: 24px;
-  width: 350px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, #4A56E2 0%, #6E78E8 100%);
+  padding: 30px;
+  border-radius: 20px;
+  color: #fff;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
 }
 
-.table {
+
+.tableSection {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.currencyTable {
   width: 100%;
   border-collapse: collapse;
 }
 
-.headerRow {
-  color: #aaa;
-  font-size: 14px;
-  text-align: left;
-}
-
-.table th,
-.table td {
-  text-align: left;
-  padding: 4px 0;
-}
-
-.dataRow {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.graphContainer {
-  margin-top: 20px;
-  height: 150px;
-}
-
-.loading,
-.error {
-  color: white;
-  font-family: Arial, sans-serif;
-  padding: 24px;
+.tableHeader {
+  padding: 15px 10px;
   text-align: center;
+  font-weight: 700;
+  font-size: 16px;
+  color: #fff;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.tableRow {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background-color 0.2s ease;
+}
+
+.tableRow:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.tableRow:last-child {
+  border-bottom: none;
+}
+
+.tableCell {
+  padding: 12px 10px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.tableCell:first-child {
+  font-weight: 700;
+  color: #FFB627;
+}
+
+
+.chartSection {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  flex: 1;
+  position: relative;
+}
+
+.chartWrapper {
+  height: 250px;
+  position: relative;
+}
+
+
+.chartWrapper canvas {
+  display: block;
+}
+
+.warning {
+  background: rgba(255, 193, 7, 0.2);
+  border: 1px solid #FFC107;
+  border-radius: 8px;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  color: #FFC107;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .error {
-  color: #ffcccc;
+  text-align: center;
+  padding: 30px;
+  font-size: 16px;
+  color: #FF6B6B;
+  margin-bottom: 20px;
 }
+
+.retryButton {
+  background: linear-gradient(135deg, #FF6B6B 0%, #ff5252 100%);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: transform 0.2s ease;
+}
+
+.retryButton:hover {
+  transform: translateY(-2px);
+}
+
