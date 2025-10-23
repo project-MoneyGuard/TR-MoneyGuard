@@ -1,159 +1,124 @@
-// src/components/Currency/Currency.jsx
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import CurrencyGraph from "../CurrencyGraph/CurrencyGraph";
+import styles from "./Currency.module.css";
+
+const MONOBANK_API_URL = "https://api.monobank.ua/bank/currency";
+const CACHE_DURATION_MS = 60 * 60 * 1000;
+
+const CURRENCY_CODES = {
+  840: "USD",
+  978: "EUR",
+  980: "UAH",
+};
+
+const getCurrencyCodeString = (numericCode) => {
+  return CURRENCY_CODES[numericCode] || numericCode;
+};
+
 const Currency = () => {
   const [rates, setRates] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const CACHE_KEY = 'currency_rates';
-  const CACHE_DURATION = 60 * 60 * 1000; // 1 saat (milisaniye cinsinden)
+
   useEffect(() => {
-    fetchCurrencyRates();
-  }, []);
-  const fetchCurrencyRates = async () => {
-    try {
-      // localStorage'dan cache kontrolü
-      const cachedData = localStorage.getItem(CACHE_KEY);
-      
-      if (cachedData) {
-        const { rates: cachedRates, timestamp } = JSON.parse(cachedData);
-        const now = Date.now();
-        
-        // Eğer cache 1 saatten yeniyse, cache'i kullan
-        if (now - timestamp < CACHE_DURATION) {
-          console.log('Cache kullanılıyor');
-          setRates(cachedRates);
-          setLoading(false);
-          return;
+    const fetchAndCacheRates = async () => {
+      const currentTime = new Date().getTime();
+
+      try {
+        const cachedRatesJSON = localStorage.getItem("currencyRates");
+        const cachedTimestamp = localStorage.getItem("currencyRatesTimestamp");
+
+        if (cachedRatesJSON && cachedTimestamp) {
+          const timeElapsed = currentTime - Number(cachedTimestamp);
+
+          if (timeElapsed < CACHE_DURATION_MS) {
+            setRates(JSON.parse(cachedRatesJSON));
+            setIsLoading(false);
+            return;
+          }
         }
+      } catch (e) {
+        console.error("Failed to read cache:", e);
+        localStorage.removeItem("currencyRates");
+        localStorage.removeItem("currencyRatesTimestamp");
       }
-      // Cache yoksa veya eskiyse, API'den çek
-      console.log('API\'den veri çekiliyor');
-      const response = await fetch('https://api.monobank.ua/bank/currency');
-      
-      if (!response.ok) {
-        throw new Error('Döviz kurları alınamadı');
+
+      try {
+        const response = await fetch(MONOBANK_API_URL);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        const filteredRates = data.filter(
+          (rate) =>
+            (rate.currencyCodeA === 840 && rate.currencyCodeB === 980) ||
+            (rate.currencyCodeA === 978 && rate.currencyCodeB === 980)
+        );
+
+        localStorage.setItem("currencyRates", JSON.stringify(filteredRates));
+        localStorage.setItem("currencyRatesTimestamp", currentTime.toString());
+        setRates(filteredRates);
+      } catch (e) {
+        console.error("Failed to fetch currency rates:", e);
+        setError(e.message);
+      } finally {
+        setIsLoading(false);
       }
-      const data = await response.json();
-      
-      // Sadece USD ve EUR kurlarını filtrele (UAH karşısında)
-      const filteredRates = data
-        .filter(rate => 
-          (rate.currencyCodeA === 840 || rate.currencyCodeA === 978) && 
-          rate.currencyCodeB === 980
-        )
-        .map(rate => ({
-          currency: rate.currencyCodeA === 840 ? 'USD' : 'EUR',
-          buy: rate.rateBuy?.toFixed(2) || 'N/A',
-          sell: rate.rateSell?.toFixed(2) || 'N/A',
-        }));
-      // localStorage'a kaydet
-      const cacheData = {
-        rates: filteredRates,
-        timestamp: Date.now()
-      };
-      localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
-      setRates(filteredRates);
-      setLoading(false);
-    } catch (err) {
-      console.error('Hata:', err);
-      setError(err.message);
-      setLoading(false);
-    }
-  };
-  if (loading) {
-    return (
-      <div style={styles.container}>
-        <p style={styles.loading}>Yükleniyor...</p>
-      </div>
-    );
+    };
+
+    fetchAndCacheRates();
+  }, []);
+
+  if (isLoading) {
+    return <div className={styles.loading}>Loading currency data...</div>;
   }
+
   if (error) {
-    return (
-      <div style={styles.container}>
-        <p style={styles.error}>Hata: {error}</p>
-      </div>
-    );
+    return <div className={styles.error}>Error fetching data: {error}</div>;
   }
+
+  const usdRateData = rates.find((rate) => rate.currencyCodeA === 840);
+  const eurRateData = rates.find((rate) => rate.currencyCodeA === 978);
+
+  const graphDataForChart = [
+    usdRateData?.rateBuy || 0,
+    eurRateData?.rateBuy || 0,
+  ];
+
+  const graphLabelsForChart = ["USD Alış", "EUR Alış"];
+
   return (
-    <div style={styles.container}>
-      <table style={styles.table}>
+    <div className={styles.container}>
+      <table className={styles.table}>
         <thead>
-          <tr style={styles.headerRow}>
-            <th style={styles.headerCell}>Currency</th>
-            <th style={styles.headerCell}>Buy</th>
-            <th style={styles.headerCell}>Sell</th>
+          <tr className={styles.headerRow}>
+            <th>Currency</th>
+            <th>Purchase</th>
+            <th>Sale</th>
           </tr>
         </thead>
         <tbody>
-          {rates.map((rate, index) => (
-            <tr key={index} style={styles.row}>
-              <td style={styles.cell}>{rate.currency}</td>
-              <td style={styles.cell}>{rate.buy}</td>
-              <td style={styles.cell}>{rate.sell}</td>
+          {rates.map((rate) => (
+            <tr key={rate.currencyCodeA} className={styles.dataRow}>
+              <td>{getCurrencyCodeString(rate.currencyCodeA)}</td>
+              <td>{rate.rateBuy?.toFixed(2) || "N/A"}</td>
+              <td>{rate.rateSell?.toFixed(2) || "N/A"}</td>
             </tr>
           ))}
         </tbody>
       </table>
-      <div style={styles.footer}>
-        <p style={styles.footerText}>
-          Kurlar her saat güncellenir
-        </p>
+
+      <div className={styles.graphContainer}>
+        <CurrencyGraph
+          graphData={graphDataForChart}
+          graphLabels={graphLabelsForChart}
+        />
       </div>
     </div>
   );
 };
-const styles = {
-  container: {
-    backgroundColor: '#4A56E2',
-    padding: '20px',
-    borderRadius: '8px',
-    minWidth: '280px',
-    color: '#fff',
-  },
-  table: {
-    width: '100%',
-    borderCollapse: 'collapse',
-    marginBottom: '15px',
-  },
-  headerRow: {
-    borderBottom: '2px solid rgba(255, 255, 255, 0.3)',
-  },
-  headerCell: {
-    padding: '10px',
-    textAlign: 'left',
-    fontWeight: '600',
-    fontSize: '14px',
-    color: '#fff',
-  },
-  row: {
-    borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-  },
-  cell: {
-    padding: '12px 10px',
-    fontSize: '16px',
-    color: '#fff',
-  },
-  loading: {
-    textAlign: 'center',
-    padding: '20px',
-    fontSize: '16px',
-  },
-  error: {
-    textAlign: 'center',
-    padding: '20px',
-    fontSize: '16px',
-    color: '#FF6B6B',
-  },
-  footer: {
-    marginTop: '10px',
-    paddingTop: '10px',
-    borderTop: '1px solid rgba(255, 255, 255, 0.2)',
-  },
-  footerText: {
-    fontSize: '12px',
-    textAlign: 'center',
-    color: 'rgba(255, 255, 255, 0.7)',
-    margin: 0,
-  },
-};
+
 export default Currency;

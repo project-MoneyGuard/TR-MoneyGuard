@@ -1,20 +1,13 @@
-import Currency from '../Currency/Currency';
+import Currency from "../Currency/Currency";
+import styles from "./CurrencyTab.module.css";
+
 const CurrencyTab = () => {
   return (
-    <div style={styles.container}>
-      <h2 style={styles.title}>Currency Rates</h2>
+    <div className={styles.container}>
+      <h2 className={styles.title}></h2>
       <Currency />
     </div>
   );
 };
-const styles = {
-  container: {
-    padding: '20px',
-  },
-  title: {
-    color: '#fff',
-    marginBottom: '20px',
-    fontSize: '24px',
-  },
-};
+
 export default CurrencyTab;
