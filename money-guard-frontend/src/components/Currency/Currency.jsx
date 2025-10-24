@@ -472,7 +472,7 @@ const Currency = () => {
                   top: purchasePointPositions.usd.y - 18
                 }}
               >
-                {rates.find(rate => rate.currency === 'USD')?.buy}
+                 ${rates.find(rate => rate.currency === 'USD')?.buy}
               </div>
               
               <div 
@@ -482,7 +482,7 @@ const Currency = () => {
                   top: purchasePointPositions.eur.y - 18
                 }}
               >
-                {rates.find(rate => rate.currency === 'EUR')?.buy}
+                €{rates.find(rate => rate.currency === 'EUR')?.buy}
               </div>
             </>
           )}
@@ -510,7 +510,7 @@ const Currency = () => {
                   top: salePointPositions.usd.y - 18
                 }}
               >
-                {rates.find(rate => rate.currency === 'USD')?.sell}
+                ${rates.find(rate => rate.currency === 'USD')?.sell}
               </div>
               
               <div 
@@ -520,7 +520,7 @@ const Currency = () => {
                   top: salePointPositions.eur.y - 18
                 }}
               >
-                {rates.find(rate => rate.currency === 'EUR')?.sell}
+                €{rates.find(rate => rate.currency === 'EUR')?.sell}
               </div>
             </>
           )}
