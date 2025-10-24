@@ -30,8 +30,6 @@ const Currency = () => {
   const [error, setError] = useState(null);
   const [purchasePointPositions, setPurchasePointPositions] = useState({ usd: { x: 0, y: 0 }, eur: { x: 0, y: 0 } });
   const [salePointPositions, setSalePointPositions] = useState({ usd: { x: 0, y: 0 }, eur: { x: 0, y: 0 } });
-  const [showPurchasePoints, setShowPurchasePoints] = useState(false);
-  const [showSalePoints, setShowSalePoints] = useState(false);
   const purchaseChartRef = useRef(null);
   const saleChartRef = useRef(null);
   
@@ -93,46 +91,14 @@ const Currency = () => {
     }
   };
 
-  const generatePurchaseChartData = (currentRates) => {
-    if (!currentRates || currentRates.length === 0) {
-      return {
-        labels: ['', 'USD', '', 'EUR', ''],
-        datasets: [
-          {
-            label: 'Purchase',
-            data: [27.45, 27.55, 27.65, 27.60, 27.70],
-            borderColor: '#FF868D',
-            backgroundColor: 'transparent',
-            borderWidth: 4,
-            fill: false,
-            tension: 0.4,
-            pointBackgroundColor: 'rgba(74, 86, 226, 1)',
-            pointBorderColor: '#FF868D',
-            pointBorderWidth: 3,
-            pointRadius: showPurchasePoints ? [0, 8, 0, 8, 0] : [0, 0, 0, 0, 0],
-            pointHoverRadius: 10,
-          }
-        ]
-      };
-    }
-
-    const usdBuy = parseFloat(currentRates.find(r => r.currency === 'USD')?.buy || 27.55);
-    const eurBuy = parseFloat(currentRates.find(r => r.currency === 'EUR')?.buy || 30.00);
-    
-    const purchaseData = [
-      usdBuy - 0.10,
-      usdBuy,
-      (usdBuy + eurBuy) / 2 + 0.05,
-      eurBuy,
-      eurBuy + 0.10
-    ];
-    
+ const generatePurchaseChartData = (currentRates) => {
+  if (!currentRates || currentRates.length === 0) {
     return {
       labels: ['', 'USD', '', 'EUR', ''],
       datasets: [
         {
           label: 'Purchase',
-          data: purchaseData,
+          data: [27.45, 27.55, 27.40, 30.10, 29.85], 
           borderColor: '#FF868D',
           backgroundColor: 'transparent',
           borderWidth: 4,
@@ -141,53 +107,54 @@ const Currency = () => {
           pointBackgroundColor: 'rgba(74, 86, 226, 1)',
           pointBorderColor: '#FF868D',
           pointBorderWidth: 3,
-          pointRadius: showPurchasePoints ? [0, 8, 0, 8, 0] : [0, 0, 0, 0, 0],
+          pointRadius: [0, 8, 0, 8, 0],
           pointHoverRadius: 10,
         }
       ]
     };
+  }
+
+  const usdBuy = parseFloat(currentRates.find(r => r.currency === 'USD')?.buy || 27.55);
+  const eurBuy = parseFloat(currentRates.find(r => r.currency === 'EUR')?.buy || 30.00);
+  
+  
+  const purchaseData = [
+    usdBuy - 15.10,           
+    usdBuy,                  
+    usdBuy - 5.15,           
+    eurBuy + 15.10,           
+    eurBuy - 5.15           
+  ];
+  
+  return {
+    labels: ['', 'USD', '', 'EUR', ''],
+    datasets: [
+      {
+        label: 'Purchase',
+        data: purchaseData,
+        borderColor: '#FF868D',
+        backgroundColor: 'transparent',
+        borderWidth: 4,
+        fill: false,
+        tension: 0.4,
+        pointBackgroundColor: 'rgba(74, 86, 226, 1)',
+        pointBorderColor: '#FF868D',
+        pointBorderWidth: 3,
+        pointRadius: [0, 8, 0, 8, 0],
+        pointHoverRadius: 10,
+      }
+    ]
   };
+};
 
-  const generateSaleChartData = (currentRates) => {
-    if (!currentRates || currentRates.length === 0) {
-      return {
-        labels: ['', 'USD', '', 'EUR', ''],
-        datasets: [
-          {
-            label: 'Sale',
-            data: [27.35, 27.45, 27.55, 27.50, 27.60],
-            borderColor: 'rgba(255, 255, 255, 0)',
-            backgroundColor: 'rgba(57, 0, 150, 0.3)',
-            borderWidth: 0,
-            fill: true,
-            tension: 0.4,
-            pointBackgroundColor: 'rgba(74, 86, 226, 1)',
-            pointBorderColor: '#4A56E2',
-            pointBorderWidth: 3,
-            pointRadius: showSalePoints ? [0, 8, 0, 8, 0] : [0, 0, 0, 0, 0],
-            pointHoverRadius: 10,
-          }
-        ]
-      };
-    }
-
-    const usdSell = parseFloat(currentRates.find(r => r.currency === 'USD')?.sell || 27.45);
-    const eurSell = parseFloat(currentRates.find(r => r.currency === 'EUR')?.sell || 29.90);
-    
-    const saleData = [
-      usdSell - 0.10,
-      usdSell,
-      (usdSell + eurSell) / 2 + 0.05,
-      eurSell,
-      eurSell + 0.10
-    ];
-    
+const generateSaleChartData = (currentRates) => {
+  if (!currentRates || currentRates.length === 0) {
     return {
       labels: ['', 'USD', '', 'EUR', ''],
       datasets: [
         {
           label: 'Sale',
-          data: saleData,
+          data: [27.35, 27.45, 27.30, 29.95, 29.75], 
           borderColor: 'rgba(255, 255, 255, 0)',
           backgroundColor: 'rgba(57, 0, 150, 0.3)',
           borderWidth: 0,
@@ -196,12 +163,45 @@ const Currency = () => {
           pointBackgroundColor: 'rgba(74, 86, 226, 1)',
           pointBorderColor: '#4A56E2',
           pointBorderWidth: 3,
-          pointRadius: showSalePoints ? [0, 8, 0, 8, 0] : [0, 0, 0, 0, 0],
+          pointRadius: [0, 8, 0, 8, 0],
           pointHoverRadius: 10,
         }
       ]
     };
+  }
+
+  const usdSell = parseFloat(currentRates.find(r => r.currency === 'USD')?.sell || 27.45);
+  const eurSell = parseFloat(currentRates.find(r => r.currency === 'EUR')?.sell || 29.90);
+  
+  
+  const saleData = [
+    usdSell - 15.10,          
+    usdSell,                 
+    usdSell - 5.15,          
+    eurSell + 15.05,          
+    eurSell - 5.15           
+  ];
+  
+  return {
+    labels: ['', 'USD', '', 'EUR', ''],
+    datasets: [
+      {
+        label: 'Sale',
+        data: saleData,
+        borderColor: 'rgba(255, 255, 255, 0)',
+        backgroundColor: 'rgba(57, 0, 150, 0.3)',
+        borderWidth: 0,
+        fill: true,
+        tension: 0.4,
+        pointBackgroundColor: 'rgba(74, 86, 226, 1)',
+        pointBorderColor: '#4A56E2',
+        pointBorderWidth: 3,
+        pointRadius: [0, 8, 0, 8, 0],
+        pointHoverRadius: 10,
+      }
+    ]
   };
+};
 
   const fetchCurrencyRates = async () => {
     try {
@@ -441,11 +441,7 @@ const Currency = () => {
         </table>
       </div>
 
-      <div 
-        className={styles.chartSectionPur}
-        onMouseEnter={() => setShowPurchasePoints(true)}
-        onMouseLeave={() => setShowPurchasePoints(false)}
-      >
+      <div className={styles.chartSectionPur}>
         <div className={styles.chartHeader}>
            <div className={styles.purchaseLegend}>
       <div className={styles.legendItem}>
@@ -463,37 +459,29 @@ const Currency = () => {
         <div className={styles.chartWrapperPur}>
           <Line ref={purchaseChartRef} data={purchaseChartData} options={purchaseChartOptions} />
           
-          {showPurchasePoints && (
-            <>
-              <div 
-                className={styles.valueLabel}
-                style={{
-                  left: purchasePointPositions.usd.x,
-                  top: purchasePointPositions.usd.y - 18
-                }}
-              >
-                 ${rates.find(rate => rate.currency === 'USD')?.buy}
-              </div>
-              
-              <div 
-                className={styles.valueLabel}
-                style={{
-                  left: purchasePointPositions.eur.x,
-                  top: purchasePointPositions.eur.y - 18
-                }}
-              >
-                €{rates.find(rate => rate.currency === 'EUR')?.buy}
-              </div>
-            </>
-          )}
+          <div 
+            className={styles.valueLabel}
+            style={{
+              left: purchasePointPositions.usd.x,
+              top: purchasePointPositions.usd.y - 25
+            }}
+          >
+            ${rates.find(rate => rate.currency === 'USD')?.buy}
+          </div>
+          
+          <div 
+            className={styles.valueLabel}
+            style={{
+              left: purchasePointPositions.eur.x,
+              top: purchasePointPositions.eur.y - 25
+            }}
+          >
+            €{rates.find(rate => rate.currency === 'EUR')?.buy}
+          </div>
         </div>
       </div>
 
-      <div 
-        className={styles.chartSectionSale}
-        onMouseEnter={() => setShowSalePoints(true)}
-        onMouseLeave={() => setShowSalePoints(false)}
-      >
+      <div className={styles.chartSectionSale}>
         <div className={styles.chartWrapperSale}>
           <Line 
             ref={saleChartRef} 
@@ -501,29 +489,25 @@ const Currency = () => {
             options={saleChartOptions}
           />
           
-          {showSalePoints && (
-            <>
-              <div 
-                className={styles.saleValueLabel}
-                style={{
-                  left: salePointPositions.usd.x,
-                  top: salePointPositions.usd.y - 18
-                }}
-              >
-                ${rates.find(rate => rate.currency === 'USD')?.sell}
-              </div>
-              
-              <div 
-                className={styles.saleValueLabel}
-                style={{
-                  left: salePointPositions.eur.x,
-                  top: salePointPositions.eur.y - 18
-                }}
-              >
-                €{rates.find(rate => rate.currency === 'EUR')?.sell}
-              </div>
-            </>
-          )}
+          <div 
+            className={styles.saleValueLabel}
+            style={{
+              left: salePointPositions.usd.x,
+              top: salePointPositions.usd.y + 25
+            }}
+          >
+            ${rates.find(rate => rate.currency === 'USD')?.sell}
+          </div>
+          
+          <div 
+            className={styles.saleValueLabel}
+            style={{
+              left: salePointPositions.eur.x,
+              top: salePointPositions.eur.y + 25
+            }}
+          >
+            €{rates.find(rate => rate.currency === 'EUR')?.sell}
+          </div>
         </div>
       </div>
     </div>
