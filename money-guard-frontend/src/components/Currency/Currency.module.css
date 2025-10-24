@@ -1,5 +1,4 @@
 .container {
-  background: linear-gradient(135deg, #4A56E2 0%, #6E78E8 100%);
   padding: 30px;
   border-radius: 20px;
   color: #fff;
@@ -11,18 +10,17 @@
   gap: 25px;
 }
 
-
 .tableSection {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
   padding: 20px;
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .currencyTable {
   width: 100%;
   border-collapse: collapse;
+}
+.currencyThead{
+  background-color: #734AEF;
 }
 
 .tableHeader {
@@ -31,18 +29,18 @@
   font-weight: 700;
   font-size: 16px;
   color: #fff;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
 .tableRow {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   transition: background-color 0.2s ease;
 }
 
 .tableRow:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.03);
 }
 
 .tableRow:last-child {
@@ -62,24 +60,105 @@
   color: #FFB627;
 }
 
-
-.chartSection {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
+.chartSectionPur {
   padding: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  flex: 1;
   position: relative;
 }
+.chartSectionSale {
+  padding: 20px;
+  position: relative;
+  top: -310px;
+}
+.chartHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.chartTitle {
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.purchaseLegend,
+.saleLegend {
+  display: flex;
+  align-items: center;
+}
 
-.chartWrapper {
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+}
+.legendLine {
+  width: 20px;
+  height: 3px;
+  background: #FF868D;
+  border-radius: 2px;
+}
+.legendArea {
+  width: 20px;
+  height: 15px;
+  background: rgba(57, 0, 150, 0.3);
+  border-radius: 3px;
+  position: relative;
+}
+.legendArea::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.1) 50%, transparent 60%);
+  border-radius: 3px;
+}
+.chartWrapperPur {
   height: 250px;
   position: relative;
+  padding: 10px 0;
 }
-
+.chartWrapperSale {
+  height: 250px;
+  position: relative;
+  padding: 10px 0;
+}
 
 .chartWrapper canvas {
   display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.valueLabel {
+  position: absolute;
+  transform: translateX(-50%);
+  background: transparent;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap;
+  border: none;
+  pointer-events: none;
+  z-index: 10;
+}
+.saleValueLabel {
+  position: absolute;
+  transform: translateX(-50%);
+  background: transparent;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap;
+  border: none;
+  pointer-events: none;
+  z-index: 10;
 }
 
 .warning {
@@ -124,4 +203,3 @@
 .retryButton:hover {
   transform: translateY(-2px);
 }
-
