@@ -57,8 +57,14 @@ tbody tr {
   cursor: pointer;
   transition: all 0.2s ease;
 }
-
-
+.loaderBox{
+    text-align: center;
+    padding: 5%;
+}
+.emptyContainer{
+    vertical-align: middle;
+    padding: 10px;
+}
 @media (max-width: 768px) {
     .table {
         width: 100%;
@@ -87,6 +93,9 @@ tbody tr {
         padding: 10px;
         border-bottom: 1px solid rgba(var(--color-white-rgb), 0.2);
     }
+    .EmpyErrorBox{
+        flex-direction: column;
+    }
     .table tbody td::before {
         content: attr(data-label);
         font-weight: bold;
@@ -103,4 +112,5 @@ tbody tr {
     .btnPadding {
         padding: 6px 12px;
     }
+
 }

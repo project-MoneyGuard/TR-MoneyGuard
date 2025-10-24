@@ -3,14 +3,12 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addTransactionAPI,
-  fetchCategories,
-} from "../../redux/finance/operations";
+import { addTransactionAPI, fetchCategories } from "../../redux/finance/operations";
 import DatePicker from "react-datepicker";
 import { toast } from "react-toastify";
 import styles from "./AddTransactionForm.module.css";
 import "react-datepicker/dist/react-datepicker.css";
+import Select from "react-select";  
 
 const schema = yup.object().shape({
   isExpense: yup.boolean().required(),
@@ -136,18 +134,87 @@ const AddTransactionForm = ({ onClose }) => {
 
       {isExpense && (
         <div className={styles.inputContainer}>
-          <select
-            id="categoryId"
-            {...register("categoryId")}
-            className={errors.categoryId ? "error" : ""}
-          >
-            <option value="">Select a category</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
+          <Controller
+            name="categoryId"
+            control={control}
+            render={({ field }) => (
+              <Select
+                classNamePrefix="custom"
+                className={styles.wrapper}
+                options={categories.map((category) => ({
+                  value: category.id,
+                  label: category.name,
+                }))}
+                value={
+                  field.value
+                    ? {
+                        value: field.value,
+                        label:
+                          categories.find((c) => c.id === field.value)?.name || "",
+                      }
+                    : null
+                }
+                onChange={(selected) => field.onChange(selected ? selected.value : "")}
+                placeholder="Select a category"
+                styles={{
+                  control: (base, state) => ({
+                    ...base,
+                    background: "transparent",
+                    color: "var(--color-white)",
+                    border: "none",
+                    borderBottom: state.isFocused ? "1px solid var(--color-yellow)" : "1px solid var(--color-white)",
+                    outline : 'none',
+                    padding: "2px 4px",
+                    minHeight: "46px",
+                    transition: "all 0.2s ease",
+                    widt: "100%",
+                    "&:hover": {
+                    },"&:focus": {
+                      outline : 'none',
+                      border : 'none'
+                    },
+                  }),
+                  menu: (base) => ({
+                    ...base,
+                    background: "linear-gradient(0deg, rgba(83, 61, 186, 0.8) 0%, rgba(80, 48, 154, 0.8) 36%, rgba(106, 70, 165, 0.8) 61%, rgba(133, 93, 175, 0.8) 100%)",
+                    borderRadius: "6px",
+                    overflow: "hidden",
+                    padding: "4px 0",
+                  }),
+                  option: (base, state) => ({
+                    ...base,
+                    color: state.isSelected ? "var(--color-pink)" : "var(--color-white)",
+                    backgroundColor: state.isFocused
+                      ? "rgba(255,255,255,0.1)"
+                      : "",
+                    cursor: "pointer",
+                    padding: "10px 16px",
+                    transition: "background 0.15s ease",
+                  }),
+                  placeholder: (base) => ({
+                    ...base,
+                    color: "var(---color-muted)",
+                  }),
+                  singleValue: (base) => ({
+                    ...base,
+                    color: "var(--color-white)",
+                  }),
+                  dropdownIndicator: (base) => ({
+                    ...base,
+                    color: "var(--color-white)",
+                    "&:hover": {
+                      color: "var(--color-linear-purple)",
+                    },
+                  }),
+                  indicatorSeparator: () => ({ display: "none" }),
+                  input: (base) => ({
+                    ...base,
+                    color: "var(--color-white)",
+                  }),
+                }}
+              />
+            )}
+          />
           {errors.categoryId && (
             <span className={"errorMessage"}>{errors.categoryId.message}</span>
           )}

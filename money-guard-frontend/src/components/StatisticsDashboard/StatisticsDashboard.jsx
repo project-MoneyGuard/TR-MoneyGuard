@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Select from "react-select";
 import "./StatisticsDashboard.css";
 
 const StatisticsDashboard = () => {
@@ -51,12 +52,12 @@ const StatisticsDashboard = () => {
     fetchStatistics();
   }, [selectedMonth, selectedYear]);
 
-  const handleMonthChange = (e) => {
-    setSelectedMonth(Number(e.target.value));
+  const handleMonthChange = (selectedOption) => {
+    setSelectedMonth(selectedOption.value);
   };
 
-  const handleYearChange = (e) => {
-    setSelectedYear(Number(e.target.value));
+  const handleYearChange = (selectedOption) => {
+    setSelectedYear(selectedOption.value);
   };
 
   const renderContent = () => {
@@ -90,32 +91,146 @@ const StatisticsDashboard = () => {
 
         <div className='date-selectors'>
           <label htmlFor='month-select'>Ay:</label>
-          <select
+          <Select
             id='month-select'
-            value={selectedMonth}
+            value={months.find((month) => month.value === selectedMonth)}
             onChange={handleMonthChange}
-            disabled={isLoading}
-          >
-            {months.map((month) => (
-              <option key={month.value} value={month.value}>
-                {month.label}
-              </option>
-            ))}
-          </select>
+            options={months}
+            isDisabled={isLoading}
+            placeholder="Ay Seçin"
+            classNamePrefix="custom"
+            styles={{
+              control: (base, state) => ({
+                ...base,
+                background: "transparent",
+                color: "var(--color-white)",
+                border: "none",
+                borderBottom: state.isFocused
+                  ? "1px solid var(--color-yellow)"
+                  : "1px solid var(--color-white)",
+                outline: "none",
+                padding: "2px 4px",
+                minHeight: "46px",
+                transition: "all 0.2s ease",
+                width: "100%",
+                "&:focus": {
+                  outline: "none",
+                  border: "none",
+                },
+              }),
+              menu: (base) => ({
+                ...base,
+                background:
+                  "linear-gradient(0deg, rgba(83, 61, 186, 0.8) 0%, rgba(80, 48, 154, 0.8) 36%, rgba(106, 70, 165, 0.8) 61%, rgba(133, 93, 175, 0.8) 100%)",
+                borderRadius: "6px",
+                overflow: "hidden",
+                padding: "4px 0",
+              }),
+              option: (base, state) => ({
+                ...base,
+                color: state.isSelected
+                  ? "var(--color-pink)"
+                  : "var(--color-white)",
+                backgroundColor: state.isFocused
+                  ? "rgba(255,255,255,0.1)"
+                  : "",
+                cursor: "pointer",
+                padding: "10px 16px",
+                transition: "background 0.15s ease",
+              }),
+              placeholder: (base) => ({
+                ...base,
+                color: "var(--color-muted)",
+              }),
+              singleValue: (base) => ({
+                ...base,
+                color: "var(--color-white)",
+              }),
+              dropdownIndicator: (base) => ({
+                ...base,
+                color: "var(--color-white)",
+                "&:hover": {
+                  color: "var(--color-linear-purple)",
+                },
+              }),
+              indicatorSeparator: () => ({ display: "none" }),
+              input: (base) => ({
+                ...base,
+                color: "var(--color-white)",
+              }),
+            }}
+          />
 
           <label htmlFor='year-select'>Yıl:</label>
-          <select
+          <Select
             id='year-select'
-            value={selectedYear}
+            value={years.find((year) => year === selectedYear)}
             onChange={handleYearChange}
-            disabled={isLoading}
-          >
-            {years.map((year) => (
-              <option key={year} value={year}>
-                {year}
-              </option>
-            ))}
-          </select>
+            options={years.map((year) => ({ value: year, label: year }))}
+            isDisabled={isLoading}
+            placeholder="Yıl Seçin"
+            classNamePrefix="custom"
+            styles={{
+              control: (base, state) => ({
+                ...base,
+                background: "transparent",
+                color: "var(--color-white)",
+                border: "none",
+                borderBottom: state.isFocused
+                  ? "1px solid var(--color-yellow)"
+                  : "1px solid var(--color-white)",
+                outline: "none",
+                padding: "2px 4px",
+                minHeight: "46px",
+                transition: "all 0.2s ease",
+                width: "100%",
+                "&:focus": {
+                  outline: "none",
+                  border: "none",
+                },
+              }),
+              menu: (base) => ({
+                ...base,
+                background:
+                  "linear-gradient(0deg, rgba(83, 61, 186, 0.8) 0%, rgba(80, 48, 154, 0.8) 36%, rgba(106, 70, 165, 0.8) 61%, rgba(133, 93, 175, 0.8) 100%)",
+                borderRadius: "6px",
+                overflow: "hidden",
+                padding: "4px 0",
+              }),
+              option: (base, state) => ({
+                ...base,
+                color: state.isSelected
+                  ? "var(--color-pink)"
+                  : "var(--color-white)",
+                backgroundColor: state.isFocused
+                  ? "rgba(255,255,255,0.1)"
+                  : "",
+                cursor: "pointer",
+                padding: "10px 16px",
+                transition: "background 0.15s ease",
+              }),
+              placeholder: (base) => ({
+                ...base,
+                color: "var(--color-muted)",
+              }),
+              singleValue: (base) => ({
+                ...base,
+                color: "var(--color-white)",
+              }),
+              dropdownIndicator: (base) => ({
+                ...base,
+                color: "var(--color-white)",
+                "&:hover": {
+                  color: "var(--color-linear-purple)",
+                },
+              }),
+              indicatorSeparator: () => ({ display: "none" }),
+              input: (base) => ({
+                ...base,
+                color: "var(--color-white)",
+              }),
+            }}
+          />
         </div>
       </div>
 

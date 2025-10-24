@@ -1,3 +1,4 @@
+import { ClipLoader } from "react-spinners";
 
 const Loader = () => {
   return (
@@ -5,9 +6,12 @@ const Loader = () => {
       display: 'flex', 
       justifyContent: 'center', 
       alignItems: 'center', 
-      height: '100vh' 
+      height: '100vh',
+      backgroundImage: 'url("/public/dashboardbg.png")',
+      backgroundSize: 'cover',
+      backgroundColor: 'hsla(0, 0%, 90%, 0.8)', 
     }}>
-      <div>Yükleniyor...</div>
+      <ClipLoader color="var(--color-yellow)" size={100} />
     </div>
   );
 };

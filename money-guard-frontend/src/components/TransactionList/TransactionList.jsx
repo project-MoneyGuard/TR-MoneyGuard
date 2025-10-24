@@ -7,10 +7,10 @@ const TransactionsList = ({ onDelete, isLoading = false }) => {
     (state) => state.transactions.transactions || []
   );
 
-  if (isLoading) {
+  if (!isLoading) {
     return (
       <div className={styles.loadingContainer}>
-        <div>Yükleniyor...</div>
+        <div><ScaleLoader color="#36d7b7" size={50} /></div>
       </div>
     );
   }
@@ -29,7 +29,7 @@ const TransactionsList = ({ onDelete, isLoading = false }) => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h2 className={styles.title}>İşlem Geçmişi</h2>
+       
       </div>
 
       <div className={styles.scrollContainer}>

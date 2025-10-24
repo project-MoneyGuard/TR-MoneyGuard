@@ -9,7 +9,9 @@ import { FaPen } from "react-icons/fa"
 import ModalEditTransaction from '../ModalEditTransaction/ModalEditTransaction'
 import ModalDeleteConfirm from '../ModalDeleteConfirm/ModalDeleteConfirm'
 import ButtonAddTransactions from '../ButtonAddTransactions/ButtonAddTransactions'
+import ModalAddTransaction from "../ModalAddTransaction/ModalAddTransaction";
 import styles from './StatisticsTable.module.css'
+import { ScaleLoader } from "react-spinners";
 
 const TransactonsTable = () => {
   const dispatch = useDispatch()
@@ -18,6 +20,7 @@ const TransactonsTable = () => {
   const [selectedTrans, setSelectedTrans] = useState(null)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [transactionToDelete, setTransactionToDelete] = useState(null)
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false)
 
   useEffect(() => {
     dispatch(fetchCategories())
@@ -60,8 +63,22 @@ const TransactonsTable = () => {
     setSelectedTrans(null)
   }
 
+  const openAddModal = () => {
+    setIsAddModalOpen(true)
+  }
+
+  const closeAddModal = () => {
+    setIsAddModalOpen(false)
+  }
+
   if (isLoading || !categories.length) {
-    return <div className={styles.loading}>Loading transactions...</div>
+    return(
+      <div className={styles.loaderContainer}>
+      <div className={styles.loading} style={{margin: '0 auto' }}>
+        <ScaleLoader color="var( --color-yellow)" size={50} className={styles.loaderBox}/>
+      </div>
+    </div>
+    ) 
   }
 
   return (
@@ -78,33 +95,45 @@ const TransactonsTable = () => {
           </tr>
         </thead>
         <tbody>
-          {transactions.map((t) => (
-            <tr key={t.id}>
-              <td data-label="Date">{formatDat(t.transactionDate)}</td>
-              <td data-label="Type">
-                {t.type === 'INCOME' ? (
-                  <span className={styles.incomeType}>+</span>
-                ) : (
-                  <span className={styles.expenseType}>-</span>
-                )}
-              </td>
-              <td data-label="Category">{getCategName(t.categoryId)}</td>
-              <td data-label="Comment">{t.comment || 'No comment'}</td>
-              <td data-label="Sum" style={{ color: t.type === 'INCOME' ? '#FFB627' : '#FF868D', fontWeight: '600' }}>
-                {t.amount.toFixed(2)}
-              </td>
-              <td>
-                <div className={styles.actionButtons}>
-                  <button className={styles.deleteButton} onClick={() => openEdit(t)}>
-                    <FaPen />
-                  </button>
-                  <button className={`gradientBtn ${styles.btnPadding}`} onClick={() => delTransaction(t.id)}>
-                    Delete
-                  </button>
+          {transactions.length === 0 ? (
+            <tr className={`styles.EmpyError ${styles.EmpyErrorBox}`}>
+              <td colSpan="6" className={styles.emptyContainer}>
+                <div className={styles.emptyMessage} style={{marginBottom : "10px"}}>Currently no transactions available</div>
+                <div className={styles.emptySubMessage}>
+                  <div style={{marginBottom : "10px"}}>Click the button to add your first transaction</div>
+                  <button onClick={openAddModal} className={"gradientBtn"} style={{padding : "13px 20px"}}>Add Transaction</button>
                 </div>
               </td>
             </tr>
-          ))}
+          ) : (
+            transactions.map((t) => (
+              <tr key={t.id}>
+                <td data-label="Date">{formatDat(t.transactionDate)}</td>
+                <td data-label="Type">
+                  {t.type === 'INCOME' ? (
+                    <span className={styles.incomeType}>+</span>
+                  ) : (
+                    <span className={styles.expenseType}>-</span>
+                  )}
+                </td>
+                <td data-label="Category">{getCategName(t.categoryId)}</td>
+                <td data-label="Comment">{t.comment || 'No comment'}</td>
+                <td data-label="Sum" style={{ color: t.type === 'INCOME' ? '#FFB627' : '#FF868D', fontWeight: '600' }}>
+                  {t.amount.toFixed(2)}
+                </td>
+                <td>
+                  <div className={styles.actionButtons}>
+                    <button className={styles.deleteButton} onClick={() => openEdit(t)}>
+                      <FaPen />
+                    </button>
+                    <button className={`gradientBtn ${styles.btnPadding}`} onClick={() => delTransaction(t.id)}>
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
 
@@ -122,6 +151,12 @@ const TransactonsTable = () => {
 
       <ButtonAddTransactions
         className={`gradientBtn ${styles.addBtn}`}
+        onClick={openAddModal}
+      />
+
+      <ModalAddTransaction
+        isOpen={isAddModalOpen}
+        onClose={closeAddModal}
       />
     </div>
   )

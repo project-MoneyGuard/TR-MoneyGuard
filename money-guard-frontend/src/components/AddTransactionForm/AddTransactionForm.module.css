@@ -96,3 +96,78 @@ input:checked + .slider::before {
 input:checked + .slider {
   background-color: var(--color-white);
 }
+
+
+
+/* CSS Modülüne ait stil */
+.react-select__control {
+  background-color: #2e1f47;
+  border-radius: 8px;
+  border: 1px solid #9b7b97;
+  padding: 8px;
+  color: white;
+  font-size: 14px;
+  transition: border 0.3s ease;
+}
+
+.react-select__control--is-focused {
+  border-color: #fcb44e;
+  box-shadow: 0 0 5px rgba(252, 180, 78, 0.5);
+}
+
+.react-select__menu {
+  background-color: #3b2c5b;
+  border-radius: 8px;
+  border: 1px solid #9b7b97;
+  color: white;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.react-select__menu-list {
+  padding: 0;
+}
+
+.react-select__option {
+  padding: 12px;
+  background-color: transparent;
+  transition: background-color 0.2s ease;
+  color: white;
+}
+
+.react-select__option--is-selected {
+  background-color: #fcb44e;
+  color: white;
+}
+
+.react-select__option--is-focused {
+  background-color: #5a4f76;
+  color: white;
+}
+
+.react-select__placeholder {
+  color: #a099bb;
+}
+
+.react-select__single-value {
+  color: white;
+}
+
+.deneme{
+  background-color: black;
+  font-size: 32px;
+}
+
+
+.mySelect__control {
+  border-color: red !important;
+  border-radius: 8px;
+}
+
+.mySelect__menu {
+  background-color: #fafafa;
+}
+
+.mySelect__option--is-focused {
+  background-color: #eee;
+}
