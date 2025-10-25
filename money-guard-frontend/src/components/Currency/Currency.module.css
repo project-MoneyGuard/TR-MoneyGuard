@@ -1,17 +1,14 @@
 .container {
-  padding: 30px;
   border-radius: 20px;
   color: #fff;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  max-width: 600px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 25px;
 }
 
 .tableSection {
-  padding: 20px;
+  padding: 20px 0 20px 0;
   backdrop-filter: blur(10px);
 }
 
@@ -20,7 +17,7 @@
   border-collapse: collapse;
 }
 .currencyThead{
-  background-color: #734AEF;
+  background: linear-gradient(  rgba(255,255,255,0.27), rgba(255,255,255,0.15), rgba(255,255,255,0), rgba(57, 0, 150, 0.2));
 }
 
 .tableHeader {
@@ -61,11 +58,12 @@
 }
 
 .chartSectionPur {
-  padding: 20px;
+  padding: 40px 0 0 0;
   position: relative;
 }
 .chartSectionSale {
-  padding: 20px;
+  margin-top: 20px;
+  padding: 40px 0  0 0;
   position: relative;
   top: -310px;
 }
@@ -86,6 +84,7 @@
 .saleLegend {
   display: flex;
   align-items: center;
+  padding: 15px;
 }
 
 .legendItem {

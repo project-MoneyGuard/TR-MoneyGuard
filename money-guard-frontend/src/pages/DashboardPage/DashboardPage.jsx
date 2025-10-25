@@ -16,6 +16,11 @@ const DashboardPage = () => {
   }, [dispatch]);
   return (
     <>
+      <div className={css.backgroundDah}>
+        <div className={css.ellipse5}></div>
+  <div className={css.ellipse4}></div>
+  <div className={css.ellipse2}></div>
+  <div className={css.ellipse1}></div>
       <Header />
       <div className={css.dasboardContainer}>
         <div className={css.sidebar}>
@@ -31,6 +36,7 @@ const DashboardPage = () => {
           <Outlet />
           
         </div>
+      </div>
       </div>
     </>
   );
