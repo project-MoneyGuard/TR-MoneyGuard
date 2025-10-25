@@ -1,5 +1,5 @@
-body{
-  background-image: url('/registerbg.png');
+body {
+  background-image: url("/registerbg.png");
   background-repeat: no-repeat;
   background-color: var(--color-text);
   background-position: center;
@@ -8,451 +8,122 @@ body{
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  min-height: 100vh;
 }
-.registerContainer{
+
+.registerContainer {
   background-color: rgba(var(--color-white-rgb), 0.1);
   backdrop-filter: blur(60px);
   box-shadow: 0 4px 60px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
   width: 533px;
-  height: 570px;
-  margin:  0 auto;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  
-    padding: 62px;
-  
-
+  padding: 50px 62px;
+  box-sizing: border-box;
 }
-.registerForm{
+
+.registerLogo {
+  width: 182px;
+  height: 76px;
+  margin-bottom: 40px;
+}
+
+.registerForm {
   display: flex;
   flex-direction: column;
-  gap: 42px;
+  gap: 30px;
   width: 100%;
 }
-.inputContainer{
+
+.inputContainer {
   position: relative;
-    width: 100%;
-    display: flex;
-    align-items: center;
+  width: 100%;
+  display: flex;
+  align-items: center;
 }
+
 .inputContainer svg {
-    position: absolute;
-    left: 10px;
-    color: #ccc;
-    font-size: 18px;
-    transition: all 0.3s ease;
+  position: absolute;
+  left: 10px;
+  color: #ccc;
+  font-size: 18px;
+  transition: all 0.3s ease;
 }
+
 .formInput {
-    width: 100%;
-    padding: 10px 10px 10px 35px;
-    border: 2px solid transparent;
-    border-bottom: 2px solid #ccc;
-    background-color: transparent;
-    color: white;
-    font-size: 16px;
-    outline: none;
-    transition: all 0.3s ease;
+  width: 100%;
+  padding: 10px 10px 10px 35px;
+  border: 2px solid transparent;
+  border-bottom: 2px solid #ccc;
+  background-color: transparent;
+  color: white;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.3s ease;
 }
 
 .formInput:focus {
-    border-bottom: 2px solid #ff9f00;
-    color: #ff9f00;
+  border-bottom: 2px solid #ff9f00;
+  color: #ff9f00;
 }
 
 .formInput:focus::placeholder {
-    color: transparent;
+  color: transparent;
 }
 
 .formInput:hover {
-    border-bottom: 2px solid #FFC727;
+  border-bottom: 2px solid #ffc727;
 }
 
 .formInput::placeholder {
-    color: #ccc;
-    opacity: 0.7;
+  color: #ccc;
+  opacity: 0.7;
 }
-
 
 .formInput:focus + label + svg,
 .formInput:hover + label + svg {
-    color: #FFC727;
+  color: #ffc727;
 }
-.buttonGroup{
+
+.buttonGroup {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  margin-top: 20px;
 }
-.registerBtn{
+
+.registerBtn {
   border-radius: 20px;
   color: var(--color-white);
   padding: 13px 0;
-  background: linear-gradient(96.76deg, #FFC727 -16.42%, #9E40BA 97.04%, #7000FF 150.71%);
+  background: linear-gradient(
+    96.76deg,
+    #ffc727 -16.42%,
+    #9e40ba 97.04%,
+    #7000ff 150.71%
+  );
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: 600;
 }
+
 .loginBtn {
   border-radius: 20px;
   padding: 13px 0;
   color: var(--color-purple);
   background-color: var(--color-white);
   text-align: center;
-}
-.loginBtn:hover{
-  text-decoration: none;
-}
-.authCard {
-  background: #764ba2;
-  backdrop-filter: blur(25px);
-  border-radius: 20px;
-  padding: 40px 30px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  width: 533px;
-  height: auto;
-  min-height: 650px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.logoContainer {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 20px;
-}
-
-.logoIcon {
-  width: 60px;
-  height: 60px;
-}
-
-.brandName {
-  color: white;
-  font-size: 28px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  margin: 0;
-}
-
-.form {
-  width: 100%;
-}
-
-.formGroup {
-  margin-bottom: 25px;
-  position: relative;
-  min-height: 65px;
-}
-
-
-.formGroup:last-of-type {
-  margin-bottom: 35px;
-}
-
-.inputIcon {
-  position: absolute;
-  left: 0;
-  top: 15px;
-  color: rgba(255, 255, 255, 0.7);
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  height: 20px;
-}
-
-.icon {
-  width: 20px;
-  height: 20px;
-}
-
-.inputField {
-  width: 100%;
-  background: transparent;
-  border: none;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-  padding: 15px 0 15px 35px;
-  color: white;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  height: 50px;
-  box-sizing: border-box;
-}
-
-.inputField::placeholder {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 16px;
-}
-
-.inputField:focus {
-  outline: none;
-  border-bottom-color: #ffd700;
-}
-
-.inputField:focus + .inputIcon,
-.inputField:not(:placeholder-shown) + .inputIcon {
-  color: #ffd700;
-}
-
-.btn {
-  width: 300px;
-  height: 50px;
-  border: none;
-  border-radius: 25px;
-  font-size: 16px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
   cursor: pointer;
-  transition: all 0.8s ease;
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  margin-left: auto;
-  margin-right: auto;
-}
-.registerLogo{
-      width: 182px;
-    height: 76px;
-}
-.btnPrimary {
-  background: linear-gradient(45deg, #ffd700, #ffed4e, #e91e63, #9c27b0);
-  background-size: 200% 200%;
-  color: white;
-  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
-  animation: gradientShift 3s ease infinite;
+  text-transform: uppercase;
+  font-weight: 600;
 }
 
-.btnPrimary:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
-  animation: gradientShift 1.5s ease infinite;
-}
-
-.btnSecondary {
-  background: linear-gradient(45deg, #ffffff, #f8f9fa, #e9ecef, #ffffff);
-  background-size: 200% 200%;
-  color: #503da5;
-  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
-  border: 1px solid rgba(80, 61, 165, 0.2);
-  animation: gradientShift 3s ease infinite;
-}
-
-.btnSecondary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
-  animation: gradientShift 1.5s ease infinite;
-}
-
-@keyframes gradientShift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.loading {
-  opacity: 0.7;
-  pointer-events: none;
-  cursor: not-allowed;
-}
-
-/* Progress Bar Styles */
-.progressContainer {
-  width: 100%;
-  margin-bottom: 15px;
-}
-
-.progressBar {
-  width: 100%;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 2px;
-  overflow: hidden;
-  margin-bottom: 8px;
-}
-
-.progressFill {
-  height: 100%;
-  background: linear-gradient(45deg, #ff6b35, #e91e63);
-  transition: width 0.3s ease;
-}
-
-.progressText {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 12px;
-  text-align: center;
-  display: block;
-}
-
-
-@media (max-width: 1024px) and (min-width: 769px) {
-  .authCard {
-    width: 450px;
-    height: auto;
-    min-height: 580px;
-    padding: 35px 25px;
-    background: rgb(65 66 101 / 50%);
-  }
-  
-  .brandName {
-    font-size: 24px;
-  }
-  
-  .logoIcon {
-    width: 50px;
-    height: 50px;
-  }
-  
-  .inputField {
-    font-size: 15px;
-  }
-  
-  .btn {
-    width: 280px;
-    height: 45px;
-    font-size: 15px;
-  }
-  
-  .formGroup {
-    min-height: 60px;
-  }
-  
-  .formGroup:last-of-type {
-    margin-bottom: 30px;
-  }
-  
-  .errorMessage {
-    font-size: 11px;
-    left: 0;
-    right: 0;
-    text-align: center;
-  }
-}
-
-
-@media (max-width: 767px) {
-  .authCard {
-    width: 100%;
-    height: 100vh;
-    border-radius: 0;
-    padding: 40px 20px;
-    margin: 0;
-    background: rgb(65 66 101 / 50%);
-    backdrop-filter: blur(15px);
-    box-shadow: none;
-    border: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    min-height: auto;
-  }
-  
-  .brandName {
-    font-size: 22px;
-  }
-  
-  .logoIcon {
-    width: 45px;
-    height: 45px;
-  }
-  
-  .inputField {
-    font-size: 14px;
-    height: 45px;
-  }
-  
-  .btn {
-    width: 100%;
-    height: 45px;
-    font-size: 14px;
-    margin-bottom: 12px;
-  }
-  
-  .formGroup {
-    min-height: 55px;
-    margin-bottom: 20px;
-  }
-  
-  .formGroup:last-of-type {
-    margin-bottom: 25px;
-  }
-  
-  .errorMessage {
-    font-size: 10px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    bottom: -18px;
-  }
-  
-  .logoContainer {
-    margin-bottom: 25px;
-  }
-  
-  .progressContainer {
-    margin-bottom: 12px;
-  }
-}
-
-@media screen and (min-width: 320px) and (max-width: 767px){
-  .registerContainer{
-    width: 100%;
-    height:  100vh;
-  }
-  .loginForm {
-    justify-content: space-evenly;  
-  }
-}
-@media (max-width: 320px) {
-  .authCard {
-    padding: 30px 15px;
-    background: rgb(65 66 101 / 50%);
-  }
-  
-  .brandName {
-    font-size: 20px;
-  }
-  
-  .logoIcon {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .inputField {
-    font-size: 13px;
-    height: 40px;
-  }
-  
-  .btn {
-    height: 40px;
-    font-size: 13px;
-  }
-  
-  .formGroup {
-    min-height: 50px;
-    margin-bottom: 18px;
-  }
-  
-  .formGroup:last-of-type {
-    margin-bottom: 22px;
-  }
+.loginBtn:hover {
+  text-decoration: none;
 }
 
 .error {
@@ -472,4 +143,12 @@ body{
   padding: 2px 8px;
   border-radius: 4px;
   white-space: nowrap;
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+  .registerContainer {
+    width: 100%;
+    height: 100vh;
+    padding: 0 20px;
+  }
 }
