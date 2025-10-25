@@ -18,7 +18,7 @@
 }
 
 .active {
-  color: #ffb627; 
+  color: #ffb627;
   font-weight: 600;
 }
 
@@ -28,20 +28,18 @@
 .editForm {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: calc(100% - 62px);
-  width: 100%; 
-  padding: 0 62px 62px 62px;         
-  box-sizing: border-box;   
+  width: 100%;
+  padding: 0 62px 62px 62px;
+  box-sizing: border-box;
 }
 
 .inputContainer {
   position: relative;
-  width: 100%;              
+  width: 100%;
   display: flex;
   align-items: center;
 }
-.buttonGroup{
+.buttonGroup {
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -50,7 +48,14 @@
 .inputContainer > div {
   width: 100%;
 }
-.sumDateWrapper{
+.sumDateWrapper {
   display: flex;
+
   gap: 32px;
+}
+
+@media screen and (max-width: 767.98px) {
+  .editModal {
+    justify-content: center;
+  }
 }

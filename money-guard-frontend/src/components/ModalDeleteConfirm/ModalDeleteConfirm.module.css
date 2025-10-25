@@ -1,18 +1,25 @@
-.deleteModal{
-    min-height: auto;
-    color: var(--color-white);
-    gap : 40px;
+.deleteModal {
+  min-height: auto;
+  color: var(--color-white);
+  gap: 40px;
 }
 
 .deleteModal h2 {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
-.confirmGroup{
-    display: flex;
-    gap: 30px;
+.confirmGroup {
+  display: flex;
+  gap: 30px;
 }
+
 .confirmGroup button {
-    line-height: 0;
-    padding: 20px 30px;
+  line-height: 0;
+  padding: 20px 30px;
+}
+
+@media screen and (max-width: 767.98px) {
+  .deleteModal {
+    justify-content: center;
+  }
 }

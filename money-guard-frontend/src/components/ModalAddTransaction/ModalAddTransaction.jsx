@@ -1,5 +1,6 @@
 import React from "react";
 import Modal from "react-modal";
+import s from "./ModalAddTransaction.module.css";
 import AddTransactionForm from "../AddTransactionForm/AddTransactionForm";
 
 Modal.setAppElement("#root");
@@ -8,7 +9,7 @@ function ModalAddTransaction({ isOpen, onClose }) {
   return (
     <Modal
       isOpen={isOpen}
-      className={"modal"}
+      className={`modal ${s.addModal}`}
       overlayClassName={"modal_Wrap"}
       onRequestClose={onClose}
     >

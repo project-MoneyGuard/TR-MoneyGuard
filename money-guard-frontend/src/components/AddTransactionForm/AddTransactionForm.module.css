@@ -1,25 +1,23 @@
-.sumDateWrapper{
+.sumDateWrapper {
   display: flex;
   gap: 32px;
 }
-.buttonGroup{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-.addForm{
+.buttonGroup {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: calc(100% - 62px);
-  width: 100%; 
-  padding: 0 62px 62px 62px;         
-  box-sizing: border-box; 
+  gap: 20px;
+}
+.addForm {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0 62px 62px 62px;
+  box-sizing: border-box;
   gap: 20px;
 }
 .inputContainer {
   position: relative;
-  width: 100%;              
+  width: 100%;
   display: flex;
   align-items: center;
 }
@@ -27,7 +25,7 @@
   width: 100%;
 }
 
-.buttonGroup{
+.buttonGroup {
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -41,8 +39,8 @@
   padding: 8px 16px;
   font-weight: 500;
   font-size: 14px;
-  
-  color: var(--color-white)
+
+  color: var(--color-white);
 }
 .switcher span {
   cursor: pointer;
@@ -96,7 +94,7 @@
 }
 input:checked + .slider::before {
   transform: translate(28px, -50%);
-  background-color: var(--color-red); 
+  background-color: var(--color-red);
   box-shadow: 0 0 10px var(--color-red);
   content: "-";
 }
@@ -107,9 +105,14 @@ input:checked + .slider {
 
 .custom__menu-list {
   scrollbar-width: thin;
-  scrollbar-color: linear-gradient(96.76deg, var(--color-yellow) -16.42%, #9E40BA 97.04%, #7000FF 150.71%) rgba(255, 255, 255, 0.1);
+  scrollbar-color: linear-gradient(
+      96.76deg,
+      var(--color-yellow) -16.42%,
+      #9e40ba 97.04%,
+      #7000ff 150.71%
+    )
+    rgba(255, 255, 255, 0.1);
 }
-
 
 .react-select__control {
   background-color: #2e1f47;
@@ -164,11 +167,10 @@ input:checked + .slider {
   color: white;
 }
 
-.deneme{
+.deneme {
   background-color: black;
   font-size: 32px;
 }
-
 
 .mySelect__control {
   border-color: red !important;
