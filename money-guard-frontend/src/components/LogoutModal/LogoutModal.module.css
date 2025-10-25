@@ -1,0 +1,50 @@
+.logoutModal{
+    min-height: auto;
+    color: var(--color-white);
+    gap: 40px;
+}
+
+.logoutModal p {
+    margin-bottom: 0;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.confirmGroup{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.confirmGroup button {
+    line-height: 0;
+    padding: 20px 30px;
+    border: 1px solid var(--color-white);
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    background-color: white;
+    color: #333;
+}
+
+.confirmGroup .gradientBtn {
+    background: var(--color-white);
+    color: #000000;
+    border: 1px solid var(--color-white);
+}
+
+.confirmGroup .whiteBtn {
+    background: var(--color-white);
+    color: #000000;
+    border: 1px solid var(--color-white);
+}
+
+.confirmGroup .gradientBtn:hover,
+.confirmGroup .whiteBtn:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: var(--color-white);
+    border: 1px solid var(--color-white);
+    transform: translateY(-1px);
+}
