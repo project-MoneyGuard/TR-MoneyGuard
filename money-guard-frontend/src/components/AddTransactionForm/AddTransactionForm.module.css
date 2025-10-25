@@ -97,7 +97,10 @@ input:checked + .slider {
   background-color: var(--color-white);
 }
 
-
+.custom__menu-list {
+  scrollbar-width: thin;
+  scrollbar-color: linear-gradient(96.76deg, var(--color-yellow) -16.42%, #9E40BA 97.04%, #7000FF 150.71%) rgba(255, 255, 255, 0.1);
+}
 
 /* CSS Modülüne ait stil */
 .react-select__control {

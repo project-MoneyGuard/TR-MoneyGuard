@@ -110,10 +110,10 @@ const StatisticsTab = () => {
                   minHeight: "46px",
                   transition: "all 0.2s ease",
                   width: "100%",
-                  "&:focus": {
-                    outline: "none",
-                    border: "none",
+                  "&:hover": {
+                    borderBottom: "1px solid var(--color-yellow)",
                   },
+                  cursor: "pointer",
                 }),
                 menu: (base) => ({
                   ...base,
@@ -122,6 +122,25 @@ const StatisticsTab = () => {
                   borderRadius: "6px",
                   overflow: "hidden",
                   padding: "4px 0",
+                }),
+                menuList: (base) => ({
+                  ...base,
+                  padding: 0,
+                  "&::-webkit-scrollbar": {
+                    width: "8px",
+                  },
+                  "&::-webkit-scrollbar-track": {
+                    background: "rgba(255, 255, 255, 0.1)",
+                    borderRadius: "4px",
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    background: "linear-gradient(96.76deg, var(--color-yellow) -16.42%, #9E40BA 97.04%, #7000FF 150.71%)",
+                    borderRadius: "4px",
+                  },
+                  "&::-webkit-scrollbar-thumb:hover": {
+                    background: "linear-gradient(96.76deg, var(--color-yellow) -16.42%, #9E40BA 97.04%, #7000FF 150.71%)",
+                    opacity: 0.8,
+                  },
                 }),
                 option: (base, state) => ({
                   ...base,
@@ -143,17 +162,14 @@ const StatisticsTab = () => {
                   ...base,
                   color: "var(--color-white)",
                 }),
-                dropdownIndicator: (base) => ({
-                  ...base,
-                  color: "var(--color-white)",
-                  "&:hover": {
-                    color: "var(--color-linear-purple)",
-                  },
+                dropdownIndicator: () => ({
+                  display: "none",
                 }),
                 indicatorSeparator: () => ({ display: "none" }),
                 input: (base) => ({
                   ...base,
                   color: "var(--color-white)",
+                  cursor: "text",
                 }),
               }}
             />
@@ -182,10 +198,10 @@ const StatisticsTab = () => {
                   minHeight: "46px",
                   transition: "all 0.2s ease",
                   width: "100%",
-                  "&:focus": {
-                    outline: "none",
-                    border: "none",
+                  "&:hover": {
+                    borderBottom: "1px solid var(--color-yellow)",
                   },
+                  cursor: "pointer",
                 }),
                 menu: (base) => ({
                   ...base,
@@ -194,6 +210,25 @@ const StatisticsTab = () => {
                   borderRadius: "6px",
                   overflow: "hidden",
                   padding: "4px 0",
+                }),
+                menuList: (base) => ({
+                  ...base,
+                  padding: 0,
+                  "&::-webkit-scrollbar": {
+                    width: "8px",
+                  },
+                  "&::-webkit-scrollbar-track": {
+                    background: "rgba(255, 255, 255, 0.1)",
+                    borderRadius: "4px",
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    background: "linear-gradient(96.76deg, var(--color-yellow) -16.42%, #9E40BA 97.04%, #7000FF 150.71%)",
+                    borderRadius: "4px",
+                  },
+                  "&::-webkit-scrollbar-thumb:hover": {
+                    background: "linear-gradient(96.76deg, var(--color-yellow) -16.42%, #9E40BA 97.04%, #7000FF 150.71%)",
+                    opacity: 0.8,
+                  },
                 }),
                 option: (base, state) => ({
                   ...base,
@@ -215,17 +250,14 @@ const StatisticsTab = () => {
                   ...base,
                   color: "var(--color-white)",
                 }),
-                dropdownIndicator: (base) => ({
-                  ...base,
-                  color: "var(--color-white)",
-                  "&:hover": {
-                    color: "var(--color-linear-purple)",
-                  },
+                dropdownIndicator: () => ({
+                  display: "none",
                 }),
                 indicatorSeparator: () => ({ display: "none" }),
                 input: (base) => ({
                   ...base,
                   color: "var(--color-white)",
+                  cursor: "text",
                 }),
               }}
             />
