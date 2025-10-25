@@ -36,7 +36,6 @@ const Currency = () => {
   const CACHE_KEY = 'currency_rates';
   const CACHE_DURATION = 60 * 60 * 1000; 
 
-  // Gradient oluşturma fonksiyonu
   const createSaleGradient = () => {
     return (context) => {
       const chart = context.chart;
@@ -53,7 +52,6 @@ const Currency = () => {
         chartArea.bottom
       );
       
-      // İstenen gradient renkleri
       gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
       gradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.54)');
       gradient.addColorStop(0.02, 'rgba(255, 255, 255, 0.27)');
@@ -129,11 +127,11 @@ const Currency = () => {
             label: 'Purchase',
             data: [27.45, 27.55, 27.40, 30.10, 29.85], 
             borderColor: '#FF868D',
-            backgroundColor: 'transparent',
+            backgroundColor: '#563EAF',
             borderWidth: 4,
             fill: false,
             tension: 0.4,
-            pointBackgroundColor: 'rgba(74, 86, 226, 1)',
+            pointBackgroundColor: '#563EAF',
             pointBorderColor: '#FF868D',
             pointBorderWidth: 3,
             pointRadius: [0, 8, 0, 8, 0],
@@ -161,11 +159,11 @@ const Currency = () => {
           label: 'Purchase',
           data: purchaseData,
           borderColor: '#FF868D',
-          backgroundColor: 'transparent',
+          backgroundColor: '#563EAF',
           borderWidth: 4,
           fill: false,
           tension: 0.4,
-          pointBackgroundColor: 'rgba(74, 86, 226, 1)',
+          pointBackgroundColor: '#563EAF',
           pointBorderColor: '#FF868D',
           pointBorderWidth: 3,
           pointRadius: [0, 8, 0, 8, 0],
@@ -188,11 +186,11 @@ const Currency = () => {
             borderWidth: 0,
             fill: true,
             tension: 0.4,
-            pointBackgroundColor: 'rgba(74, 86, 226, 1)',
-            pointBorderColor: '#4A56E2',
-            pointBorderWidth: 3,
-            pointRadius: [0, 8, 0, 8, 0],
-            pointHoverRadius: 10,
+            pointBackgroundColor: 'transparent',
+            pointBorderColor: 'transparent',
+            pointBorderWidth: 0,
+            pointRadius: 0,
+            pointHoverRadius: 0,
           }
         ]
       };
@@ -220,11 +218,11 @@ const Currency = () => {
           borderWidth: 0,
           fill: true,
           tension: 0.4,
-          pointBackgroundColor: 'rgba(74, 86, 226, 1)',
-          pointBorderColor: '#4A56E2',
-          pointBorderWidth: 3,
-          pointRadius: [0, 8, 0, 8, 0],
-          pointHoverRadius: 10,
+          pointBackgroundColor: 'transparent',
+          pointBorderColor: 'transparent',
+          pointBorderWidth: 0,
+          pointRadius: 0,
+          pointHoverRadius: 0,
         }
       ]
     };
@@ -394,8 +392,13 @@ const Currency = () => {
     },
     elements: {
       point: {
-        hoverRadius: 10,
-        hoverBorderWidth: 3,
+        radius: 0,
+        borderWidth: 0,
+        backgroundColor: 'transparent',
+        hoverBackgroundColor: 'transparent',
+        hoverBorderColor: 'transparent',
+        hoverBorderWidth: 0,
+        hoverRadius: 0
       },
       line: {
         tension: 0.4
@@ -523,7 +526,6 @@ const Currency = () => {
               top: salePointPositions.usd.y + 25
             }}
           >
-            ${rates.find(rate => rate.currency === 'USD')?.sell}
           </div>
           
           <div 
@@ -533,7 +535,6 @@ const Currency = () => {
               top: salePointPositions.eur.y + 25
             }}
           >
-            €{rates.find(rate => rate.currency === 'EUR')?.sell}
           </div>
         </div>
       </div>
