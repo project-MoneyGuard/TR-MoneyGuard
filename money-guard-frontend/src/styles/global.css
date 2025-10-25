@@ -110,13 +110,13 @@ button:focus {
 .gradientBtn{
   border-radius: 20px;
   padding: 13px 0;
-  color: var(--color-purple);
-  background-color: var(--color-white);
+  color: var(--color-white);
+  background: linear-gradient(96.76deg, var(--color-yellow) -16.42%, #9E40BA 97.04%, #7000FF 150.71%); 
   text-align: center;
 }
 .gradientBtn:hover{
-  color: var(--color-white);
-  background: linear-gradient(96.76deg, var(--color-yellow) -16.42%, #9E40BA 97.04%, #7000FF 150.71%);
+  color: var(--color-purple);
+  background: var(--color-white);
 }
 .whiteBtn {
   border-radius: 20px;
@@ -130,7 +130,10 @@ button:focus {
    color: var(--color-white);
   background: linear-gradient(96.76deg, var(--color-yellow) -16.42%, #9E40BA 97.04%, #7000FF 150.71%);  
 }
-
+.sumDateWrapper{
+  display: flex;
+  gap: 32px;
+}
 .modal_Wrap {
     position: fixed;
     z-index: 9999;
@@ -157,7 +160,6 @@ button:focus {
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex-wrap: wrap;
 
     h2 {
         margin-bottom: 42px;

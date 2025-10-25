@@ -47,3 +47,10 @@
   gap: 20px;
   margin-top: 32px;
 }
+.inputContainer > div {
+  width: 100%;
+}
+.sumDateWrapper{
+  display: flex;
+  gap: 32px;
+}

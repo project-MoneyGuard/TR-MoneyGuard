@@ -1,3 +1,7 @@
+.sumDateWrapper{
+  display: flex;
+  gap: 32px;
+}
 .buttonGroup{
     display: flex;
     flex-direction: column;
@@ -19,6 +23,10 @@
   display: flex;
   align-items: center;
 }
+.inputContainer > div {
+  width: 100%;
+}
+
 .buttonGroup{
   display: flex;
   flex-direction: column;
@@ -102,7 +110,7 @@ input:checked + .slider {
   scrollbar-color: linear-gradient(96.76deg, var(--color-yellow) -16.42%, #9E40BA 97.04%, #7000FF 150.71%) rgba(255, 255, 255, 0.1);
 }
 
-/* CSS Modülüne ait stil */
+
 .react-select__control {
   background-color: #2e1f47;
   border-radius: 8px;
