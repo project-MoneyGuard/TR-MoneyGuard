@@ -1,147 +1,146 @@
-body{
-    background-image: url('/public/dashboardbg.png') ;
-    display: block;
-    background-size: cover;
-    background-color: hsla(0, 0%, 90%, 0.5)
+body {
+  background-image: url("/dashboardbg.png");
+  display: block;
+  background-size: cover;
+  background-color: hsla(0, 0%, 90%, 0.5);
 }
 body > #root {
-    width: 100%;
+  width: 100%;
 }
 .backgroundDah {
-      position: relative;
-      width: 100%;
-      min-height: 100vh;
-      background: radial-gradient(975px 400px at 10% 94%, rgba(255, 255, 255, 0.02), transparent 68% 10%), linear-gradient(27deg, #2b1e40 0%, #160a23 59%, #150723 100%);
-  }
-   .ellipse1,
-  .ellipse2,
-  .ellipse4,
-  .ellipse5 {
-      position: fixed;
-      border-radius: 50%;
-      pointer-events: none;
-      mix-blend-mode: screen;
-      z-index: 0;
-  }
-
-  .ellipse1 {
-      width: 137px;
-      height: 167px;
-      background: linear-gradient(163deg, #ae63bb, #421c7f);
-      filter: blur(100px);
-      opacity: 1;
-      left: 0;
-      top: 61px;
-      border-radius: 10%;
-  }
-
-  .ellipse2 {
-
-      width: 364px;
-      height: 416px;
-      bottom: 0;
-      right: 0;
-      background: rgb(100 24 110);
-      filter: blur(200px);
-      opacity: 1;
-  }
-
-
-
-  .ellipse4 {
-      display: none;
-  }
-.dasboardContainer{ 
-    width: 100%;
-    display: flex;
-    height: 100%;
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: radial-gradient(
+      975px 400px at 10% 94%,
+      rgba(255, 255, 255, 0.02),
+      transparent 68% 10%
+    ),
+    linear-gradient(27deg, #2b1e40 0%, #160a23 59%, #150723 100%);
 }
-.sidebar{
-    width: 30%;
-    border-right: 1px solid var(--color-white);
-    height: 100vh;
-    overflow: hidden;
-    
+.ellipse1,
+.ellipse2,
+.ellipse4,
+.ellipse5 {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  z-index: 0;
 }
-.content{
-    width: 70%;
+
+.ellipse1 {
+  width: 137px;
+  height: 167px;
+  background: linear-gradient(163deg, #ae63bb, #421c7f);
+  filter: blur(100px);
+  opacity: 1;
+  left: 0;
+  top: 61px;
+  border-radius: 10%;
+}
+
+.ellipse2 {
+  width: 364px;
+  height: 416px;
+  bottom: 0;
+  right: 0;
+  background: rgb(100 24 110);
+  filter: blur(200px);
+  opacity: 1;
+}
+
+.ellipse4 {
+  display: none;
+}
+.dasboardContainer {
+  width: 100%;
+  display: flex;
+  height: 100%;
+}
+.sidebar {
+  width: 30%;
+  border-right: 1px solid var(--color-white);
+  height: 100vh;
+  overflow: hidden;
+}
+.content {
+  width: 70%;
 }
 @media (min-width: 768px) and (max-width: 1279px) {
-  .dasboardContainer{
+  .dasboardContainer {
     flex-direction: column;
   }
-  .sidebar{
+  .sidebar {
     width: 100%;
     height: auto;
-    display:flex;
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
     gap: 32px;
   }
-  .section1{
+  .section1 {
     padding-left: 32px;
-    width: calc((100% - 32px ) / 2);
+    width: calc((100% - 32px) / 2);
   }
-  .section2{
+  .section2 {
     padding-right: 32px;
-    width: calc((100% - 32px ) / 2);
+    width: calc((100% - 32px) / 2);
   }
   .content {
     width: 100%;
     padding-bottom: 250px;
   }
-  .balance{
+  .balance {
     width: auto;
   }
 }
 @media (min-width: 320px) and (max-width: 767px) {
-  .dasboardContainer{
+  .dasboardContainer {
     flex-direction: column;
     padding: 32px;
   }
-  .sidebar{
+  .sidebar {
     width: 100%;
     height: auto;
-    display:flex;
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
     gap: 32px;
     border-right: none;
   }
-  .section1{
+  .section1 {
     padding-left: 32px;
-    width: calc((100% - 32px ) / 2);
+    width: calc((100% - 32px) / 2);
   }
-  .section2{
+  .section2 {
     padding-right: 32px;
-    width: calc((100% - 32px ) / 2);
+    width: calc((100% - 32px) / 2);
   }
   .content {
     width: 100%;
     padding-bottom: 250px;
   }
-  .balance{
+  .balance {
     width: auto;
   }
 }
 @media (min-width: 320px) and (max-width: 767px) {
-    .dasboardContainer{
-        padding: 0;
-    }
-    .sidebar{
-        border-right: none;
-    }
-    .section1{
-        width: 100%;
-        padding-left: 0;
-    }
-  .section2{
+  .dasboardContainer {
+    padding: 0;
+  }
+  .sidebar {
+    border-right: none;
+  }
+  .section1 {
+    width: 100%;
+    padding-left: 0;
+  }
+  .section2 {
     display: none;
   }
-  .balance{
+  .balance {
     margin: 0 auto;
     width: 80%;
   }
 }
-
-
