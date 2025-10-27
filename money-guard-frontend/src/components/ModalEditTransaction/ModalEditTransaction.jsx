@@ -27,7 +27,7 @@ function ModalEditTransaction({ isOpen, onClose, transaction }) {
       </div>
 
       <h2>Edit transaction</h2>
-      <EditTransactionForm onClose={onClose} initialData={transaction} />
+      <EditTransactionForm onClose={onClose} transaction={transaction} />
     </Modal>
   );
 }

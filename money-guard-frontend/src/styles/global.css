@@ -287,3 +287,7 @@ hr {
     margin-top: 0;
   }
 }
+
+#date {
+  width: 75%;
+}
